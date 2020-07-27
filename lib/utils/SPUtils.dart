@@ -1,10 +1,13 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// @author DeMon
 /// Created on 2020/6/15.
 /// E-mail 757454343@qq.com
 /// Desc:
+///
+///
+typedef SPCallback = void Function(dynamic result);
+
 class SPUtils {
   static setData(String key, Object data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -19,6 +22,12 @@ class SPUtils {
     } else {
       await prefs.setString(key, data);
     }
+  }
+
+  static T get<T>(String key, T def, SPCallback callback) {
+    getData(key, def).then((value) {
+      callback(value);
+    });
   }
 
   static Future<T> getData<T>(String key, T def) async {

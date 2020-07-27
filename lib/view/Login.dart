@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wan_flutter_app/style/DIcons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wan_flutter_app/data/Const.dart';
+import 'package:wan_flutter_app/model/User.dart';
+import 'package:wan_flutter_app/utils/SPUtils.dart';
+import 'package:wan_flutter_app/utils/StringUtils.dart';
+import 'package:wan_flutter_app/utils/SystemUtils.dart';
+import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CenterScaffold.dart';
 import 'package:wan_flutter_app/widget/EditForm.dart';
 import 'package:wan_flutter_app/widget/GradientButton.dart';
@@ -14,6 +20,35 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  String username, password;
+
+  FocusNode focusNode = FocusNode(); //密码框焦点
+
+  login(BuildContext context) {
+    SystemUtils.hideSoftKeyboard(context);
+    if (StringUtils.isEmpty(username)) {
+      Fluttertoast.showToast(msg: '用户名不能为空！');
+      return;
+    }
+
+    if (StringUtils.isEmpty(password)) {
+      Fluttertoast.showToast(msg: '密码不能为空！');
+      return;
+    }
+
+    HttpUtils.instance.post(context, "user/login", (result) {
+      Fluttertoast.showToast(msg: '登录成功！');
+      SPUtils.setData(Const.IS_LOGIN, true);
+      User.getInstance().fromJson(result.data);
+      print('${User.getInstance().toString()}');
+      //NoSuchMethodError The getter focusScopeNode was called on null
+      //https://blog.csdn.net/u011050129/article/details/106711246
+      Future.delayed(Duration(milliseconds: 200)).then((e) {
+        Navigator.of(context).pushReplacementNamed(Const.HOME);
+      });
+    }, data: {"username": username, "password": password});
+  }
+
   @override
   Widget build(BuildContext context) {
     return CenterScaffold(null, <Widget>[
@@ -23,11 +58,19 @@ class LoginPageState extends State<LoginPage> {
         child: Image.asset('res/images/wan.png'),
         margin: EdgeInsets.all(20),
       ),
+      Text("使用玩Android账号登录"),
       Padding(
         padding: EdgeInsets.all(20),
         child: EditForm(
           icon: Icons.account_circle,
           hintText: "请输入您的用户名",
+          textInputAction: TextInputAction.next,
+          onEditingComplete: () {
+            FocusScope.of(context).requestFocus(focusNode);
+          },
+          onChanged: (value) {
+            username = value;
+          },
         ),
       ),
       Padding(
@@ -35,7 +78,11 @@ class LoginPageState extends State<LoginPage> {
         child: EditForm(
           icon: Icons.lock_outline,
           obscureText: true,
+          focusNode: focusNode,
           hintText: "请输入您的密码",
+          onChanged: (value) {
+            password = value;
+          },
         ),
       ),
       Padding(
@@ -43,7 +90,16 @@ class LoginPageState extends State<LoginPage> {
         child: GradientButton(
           "登录",
           height: 45,
+          onPressed: () {
+            login(context);
+          },
         ),
+      ),
+      GestureDetector(
+        child: Text("没有账号？注册", style: TextStyle(color: Colors.blue)),
+        onTap: () {
+          Navigator.of(context).pushNamed(Const.REGISTER);
+        },
       )
     ]);
   }

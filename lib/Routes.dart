@@ -1,6 +1,7 @@
 import 'package:wan_flutter_app/data/Const.dart';
-import 'package:wan_flutter_app/view/Home.dart';
+import 'package:wan_flutter_app/view/home/Home.dart';
 import 'package:wan_flutter_app/view/Login.dart';
+import 'package:wan_flutter_app/view/Register.dart';
 import 'package:wan_flutter_app/view/Splash.dart';
 
 /// @author DeMon
@@ -12,5 +13,6 @@ class Routes {
     "/": (context) => SplashPage(),
     Const.HOME: (context) => HomePage(),
     Const.LOGIN: (context) => LoginPage(),
+    Const.REGISTER: (context) => RegisterPage(),
   };
 }

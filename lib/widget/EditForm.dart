@@ -7,13 +7,17 @@ import 'package:wan_flutter_app/style/DIcons.dart';
 /// E-mail 757454343@qq.com
 /// Desc:
 class EditForm extends StatefulWidget {
-  EditForm({this.icon, this.hintText, this.controller, this.keyboardType, this.obscureText});
+  EditForm({this.icon, this.hintText, this.controller, this.keyboardType, this.obscureText, this.onChanged, this.textInputAction, this.focusNode, this.onEditingComplete});
 
   final String hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool obscureText;
   final IconData icon;
+  final ValueChanged<String> onChanged;
+  final TextInputAction textInputAction;
+  final FocusNode focusNode;
+  final VoidCallback onEditingComplete;
 
   @override
   State<StatefulWidget> createState() {
@@ -24,15 +28,19 @@ class EditForm extends StatefulWidget {
 class EditFormState extends State<EditForm> {
   bool canSee = false;
 
+  @override
+  void initState() {
+    if (widget.obscureText != null) {
+      canSee = widget.obscureText;
+    }
+    super.initState();
+  }
+
   Widget buildPwdIcon() {
     return Offstage(
         offstage: (widget.obscureText == null || !widget.obscureText),
         child: IconButton(
-          icon: Icon(
-            canSee ? DIcons.see : DIcons.cant_see,
-            size: 25,
-            color: Colors.black45
-          ),
+          icon: Icon(canSee ? DIcons.cant_see : DIcons.see, size: 25, color: Colors.black45),
           onPressed: () {
             setState(() => canSee = !canSee);
           },
@@ -71,6 +79,10 @@ class EditFormState extends State<EditForm> {
                   controller: widget.controller,
                   keyboardType: widget.keyboardType,
                   obscureText: canSee,
+                  onChanged: widget.onChanged,
+                  textInputAction: widget.textInputAction,
+                  focusNode: widget.focusNode,
+                  onEditingComplete: widget.onEditingComplete,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: widget.hintText,
