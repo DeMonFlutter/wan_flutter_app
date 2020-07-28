@@ -1,4 +1,5 @@
 import 'package:wan_flutter_app/data/Const.dart';
+import 'package:wan_flutter_app/view/SettingRoute.dart';
 import 'package:wan_flutter_app/view/home/Home.dart';
 import 'package:wan_flutter_app/view/Login.dart';
 import 'package:wan_flutter_app/view/Register.dart';
@@ -14,5 +15,6 @@ class Routes {
     Const.HOME: (context) => HomePage(),
     Const.LOGIN: (context) => LoginPage(),
     Const.REGISTER: (context) => RegisterPage(),
+    Const.ROUTE: (context) => SettingRoutePage(),
   };
 }

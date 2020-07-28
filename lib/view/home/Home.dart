@@ -22,6 +22,7 @@ class HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.search)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: HomeBottomBar(callback: (i) {}),
+      backgroundColor: Color(0xfff3f3f3),
     );
   }
 }

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/data/Const.dart';
-import 'package:wan_flutter_app/utils/SPUtils.dart';
+import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
+import 'package:wan_flutter_app/utils/SystemUtils.dart';
+import 'package:wan_flutter_app/widget/GradientView.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
@@ -15,37 +17,92 @@ class HomeDrawerView extends StatefulWidget {
 }
 
 class HomeDrawerViewState extends State<HomeDrawerView> {
-  Widget _buildHeader(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    DrawerHeader(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(color: theme.primaryColor),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            child: _buildAvatar(),
-          )
-        ],
-      ),
-    );
+  Widget _buildAvatar() {
+    if (!StringUtils.isEmpty(User.getInstance().icon)) {
+      return CircleAvatar(radius: 36.0, backgroundImage: FileImage(File(User.getInstance().icon)));
+    }
+    return CircleAvatar(radius: 30.0, backgroundImage: AssetImage('res/images/D.png'));
   }
 
-  Widget _buildAvatar() {
-    FutureBuilder<String>(
-        future: SPUtils.getData(Const.USER_AVATAR, ""),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (!StringUtils.isEmpty(snapshot.data)) {
-              return Image.file(File(snapshot.data), width: 80, height: 80);
-            }
-          }
-          return Image.asset('res/images/D.png', width: 80, height: 80);
-        });
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(elevation: 3, child: ListView(children: <Widget>[_buildHeader(context)]));
+    ThemeData theme = Theme.of(context);
+    return Drawer(
+        elevation: 3,
+        child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+          DrawerHeader(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: theme.primaryColor),
+            child: GradientView(
+              onPressed: () {
+                SystemUtils.startPage(context, Const.REGISTER);
+              },
+              child: Stack(
+                alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+                children: <Widget>[
+                  Positioned(
+                    left: 10,
+                    child: _buildAvatar(),
+                  ),
+                  Positioned(
+                    left: 90,
+                    child: Text(
+                      User.getInstance().nickname,
+                      style: TextStyle(fontSize: 24, color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 3)]),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    bottom: 0,
+                    child: Text(
+                      StringUtils.isEmpty(User.getInstance().desc) ? "I decide what tide to bring.\n我的命运，由我做主。" : User.getInstance().desc,
+                      style: TextStyle(fontSize: 15, color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 1)]),
+                    ),
+                  ),
+                  Positioned(right: 10, child: Icon(Icons.arrow_right, color: Colors.white))
+                ],
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.star,
+              color: Colors.blue,
+            ),
+            title: Text('我的收藏'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.palette,
+              color: Colors.orangeAccent,
+            ),
+            title: Text('应用主题颜色设置'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.router,
+              color: Colors.purple,
+            ),
+            title: Text('页面跳转动画设置'),
+            onTap: () {
+              SystemUtils.startPage(context, Const.ROUTE);
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.android,
+              color: Colors.green,
+            ),
+            title: Text('应用详情'),
+            onTap: () {},
+          ),
+        ]));
   }
 }

@@ -40,8 +40,8 @@ class HomeBottomBarState extends State<HomeBottomBar> {
             direction: Axis.vertical,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: <Widget>[
-              Icon(iconMap[info[i]], color: active ? color : Colors.white, size: 25),
-              Text(info[i], style: TextStyle(color: active ? color : Colors.white, fontSize: 12))
+              Icon(iconMap[info[i]], color: active ? color : Colors.grey, size: 25),
+              Text(info[i], style: TextStyle(color: active ? color : Colors.grey, fontSize: 12))
             ],
           ),
         ),
@@ -56,7 +56,7 @@ class HomeBottomBarState extends State<HomeBottomBar> {
       elevation: 1,
       shape: CircularNotchedRectangle(),
       notchMargin: 5,
-      color: theme.primaryColor.withOpacity(0.2),
+      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: _buildIcons(theme.primaryColor),

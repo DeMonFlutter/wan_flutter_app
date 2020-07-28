@@ -69,7 +69,7 @@ flutter:
   fonts:
     - family: DIcons
       fonts:
-        - asset: res/fonts/DIcons.ttf
+        - asset: res/fonts/iconfont.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

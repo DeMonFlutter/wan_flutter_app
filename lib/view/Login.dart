@@ -39,12 +39,11 @@ class LoginPageState extends State<LoginPage> {
     HttpUtils.instance.post(context, "user/login", (result) {
       Fluttertoast.showToast(msg: '登录成功！');
       SPUtils.setData(Const.IS_LOGIN, true);
-      User.getInstance().fromJson(result.data);
-      print('${User.getInstance().toString()}');
+      User.getInstance().setUser(result.data);
       //NoSuchMethodError The getter focusScopeNode was called on null
       //https://blog.csdn.net/u011050129/article/details/106711246
       Future.delayed(Duration(milliseconds: 200)).then((e) {
-        Navigator.of(context).pushReplacementNamed(Const.HOME);
+        SystemUtils.startPage(context, Const.HOME, isReplace: true);
       });
     }, data: {"username": username, "password": password});
   }
@@ -98,7 +97,7 @@ class LoginPageState extends State<LoginPage> {
       GestureDetector(
         child: Text("没有账号？注册", style: TextStyle(color: Colors.blue)),
         onTap: () {
-          Navigator.of(context).pushNamed(Const.REGISTER);
+          SystemUtils.startPage(context, Const.REGISTER);
         },
       )
     ]);

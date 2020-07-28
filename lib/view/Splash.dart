@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wan_flutter_app/data/Const.dart';
+import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
 
@@ -9,6 +10,9 @@ import 'package:wan_flutter_app/utils/SystemUtils.dart';
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
+
+var routeMode = -1;
+
 class SplashPage extends StatefulWidget {
   @override
   createState() => new SplashPageState();
@@ -30,16 +34,21 @@ class SplashPageState extends State<SplashPage> with SingleTickerProviderStateMi
           goto();
         }
       });
+    //提前初始化
+    User.getInstance();
+    SPUtils.get(Const.ROUTE_MODE, 0, (i) {
+      routeMode = i;
+    });
     super.initState();
   }
 
   goto() {
-    Future.delayed(Duration(milliseconds: 500)).then((e) {
+    Future.delayed(Duration(milliseconds: 200)).then((e) {
       SPUtils.getData(Const.IS_LOGIN, false).then((onValue) {
         if (onValue) {
-          Navigator.of(context).pushReplacementNamed(Const.HOME);
+          SystemUtils.startPage(context, Const.HOME, isReplace: true);
         } else {
-          Navigator.of(context).pushReplacementNamed(Const.LOGIN);
+          SystemUtils.startPage(context, Const.LOGIN, isReplace: true);
         }
       });
     });
