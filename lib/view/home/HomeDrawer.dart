@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
+import 'package:wan_flutter_app/utils/DialogUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
 import 'package:wan_flutter_app/widget/GradientView.dart';
@@ -40,7 +41,8 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
             decoration: BoxDecoration(color: theme.primaryColor),
             child: GradientView(
               onPressed: () {
-                SystemUtils.startPage(context, Const.REGISTER);
+                //TODO
+                //SystemUtils.startPage(context, Const.REGISTER);
               },
               child: Stack(
                 alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
@@ -57,11 +59,14 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
                     ),
                   ),
                   Positioned(
-                    left: 0,
-                    bottom: 0,
+                    left: 10,
+                    right: 0,
+                    bottom: 15,
                     child: Text(
-                      StringUtils.isEmpty(User.getInstance().desc) ? "I decide what tide to bring.\n我的命运，由我做主。" : User.getInstance().desc,
-                      style: TextStyle(fontSize: 15, color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 1)]),
+                      StringUtils.isEmpty(User.getInstance().desc) ? "I decide what tide to bring.我的命运，由我做主。" : User.getInstance().desc,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 13, color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 1)]),
                     ),
                   ),
                   Positioned(right: 10, child: Icon(Icons.arrow_right, color: Colors.white))

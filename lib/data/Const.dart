@@ -12,4 +12,5 @@ class Const {
   static const LOGIN = "Login";
   static const REGISTER = "Register";
   static const ROUTE = "Route";
+  static const THEME = "Theme";
 }

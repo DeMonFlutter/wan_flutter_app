@@ -11,12 +11,13 @@ const int _kReceiveTimeout = 15000;
 const int _kSendTimeout = 15000;
 const int _kConnectTimeout = 15000;
 
-typedef HttpCallback = void Function(RepResult result);
-
 /// @author DeMon
 /// Created on 2020/7/27.
 /// E-mail 757454343@qq.com
 /// Desc:http请求
+///
+
+typedef HttpCallback = void Function(RepResult result);
 class HttpUtils {
   static const CONTENT_TYPE_JSON = "application/json";
   static const CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
@@ -59,7 +60,7 @@ class HttpUtils {
   get(BuildContext context, String url, HttpCallback callback, {bool isShowDialog = true, bool isJson = true, int page = -1, Map<String, dynamic> param}) {
     Future.sync(() async {
       if (isShowDialog) {
-        DialogUtils.showHttpDialog(context);
+        DialogUtils.showLoadingDialog(context);
       }
       if (page != -1) {
         url += "/$page";
@@ -97,7 +98,7 @@ class HttpUtils {
   post(BuildContext context, String url, HttpCallback callback, {bool isShowDialog = true, int page = -1, bool isJson = false, Map<String, dynamic> data}) {
     Future.sync(() async {
       if (isShowDialog) {
-        DialogUtils.showHttpDialog(context);
+        DialogUtils.showLoadingDialog(context);
       }
       if (page != -1) {
         url += "/$page";

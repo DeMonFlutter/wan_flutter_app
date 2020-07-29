@@ -31,7 +31,6 @@ class SystemUtils {
    * 封装过渡动画的路由跳转
    */
   static startPage(BuildContext context, String routeName, {Object arguments, bool isReplace = false}) {
-    print("startPage：$routeName $routeMode");
     //系统默认：MaterialPageRoute无效果
     if (routeMode == 0) {
       if (isReplace) {
