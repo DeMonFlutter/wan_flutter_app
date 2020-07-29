@@ -1,11 +1,10 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
-import 'package:wan_flutter_app/utils/DialogUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
+import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/widget/GradientView.dart';
 
 import '../../Routes.dart';
@@ -20,13 +19,6 @@ class HomeDrawerView extends StatefulWidget {
 }
 
 class HomeDrawerViewState extends State<HomeDrawerView> {
-  Widget _buildAvatar() {
-    if (!StringUtils.isEmpty(User.getInstance().icon)) {
-      return CircleAvatar(radius: 36.0, backgroundImage: FileImage(File(User.getInstance().icon)));
-    }
-    return CircleAvatar(radius: 30.0, backgroundImage: AssetImage('res/images/D.png'));
-  }
-
   @override
   void initState() {
     super.initState();
@@ -43,15 +35,14 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
             decoration: BoxDecoration(color: theme.primaryColor),
             child: GradientView(
               onPressed: () {
-                //TODO
-                //SystemUtils.startPage(context, Const.REGISTER);
+                SystemUtils.startPage(context, Routes.USER_INFO);
               },
               child: Stack(
                 alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
                 children: <Widget>[
                   Positioned(
                     left: 10,
-                    child: _buildAvatar(),
+                    child: Hero(tag: Const.HERO_HEAD, child: ViewUtils.buildAvatar()),
                   ),
                   Positioned(
                     left: 90,

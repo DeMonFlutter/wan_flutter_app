@@ -8,4 +8,6 @@ class Const {
 
   static const ROUTE_MODE = "route_mode";
   static const THEME_MODE = "theme_mode";
+
+  static const HERO_HEAD = "hero_head";
 }

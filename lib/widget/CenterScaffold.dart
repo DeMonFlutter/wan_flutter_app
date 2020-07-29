@@ -7,13 +7,11 @@ import 'package:flutter/material.dart';
 class CenterScaffold extends Scaffold {
   CenterScaffold(String title, List<Widget> childrens, {Color backgroundColor = Colors.white, AlignmentGeometry alignment = Alignment.center})
       : super(
-            appBar: (title == null || title.isEmpty) ? null : AppBar(title: Text(title)),
-            body: Container(
-                alignment: alignment,
-                child: SingleChildScrollView(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: childrens,
-                ))),
-            backgroundColor: backgroundColor);
+          appBar: (title == null || title.isEmpty) ? null : AppBar(title: Text(title)),
+          body: Container(
+            alignment: alignment,
+            child: SingleChildScrollView(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: childrens)),
+          ),
+          backgroundColor: backgroundColor,
+        );
 }

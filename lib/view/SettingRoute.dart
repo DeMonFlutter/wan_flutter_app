@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/RouteInfo.dart';
+import 'package:wan_flutter_app/style/DColors.dart';
 import 'package:wan_flutter_app/style/DIcons.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/view/Splash.dart';
@@ -45,7 +46,7 @@ class SettingRoutePageState extends State<SettingRoutePage> {
                 SPUtils.setData(Const.ROUTE_MODE, routeMode);
               }))
           .toList(),
-      backgroundColor: Color(0xfff3f3f3),
+      backgroundColor: DColors.bg,
       alignment: Alignment.topCenter,
     );
   }

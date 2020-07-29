@@ -1,6 +1,6 @@
-import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/view/SettingRoute.dart';
 import 'package:wan_flutter_app/view/SettingTheme.dart';
+import 'package:wan_flutter_app/view/UserInfo.dart';
 import 'package:wan_flutter_app/view/home/Home.dart';
 import 'package:wan_flutter_app/view/Login.dart';
 import 'package:wan_flutter_app/view/Register.dart';
@@ -16,6 +16,7 @@ class Routes {
   static const REGISTER = "Register";
   static const ROUTE = "Route";
   static const THEME = "Theme";
+  static const USER_INFO = "User_Info";
 
   static final routes = {
     "/": (context) => SplashPage(),
@@ -24,5 +25,6 @@ class Routes {
     REGISTER: (context) => RegisterPage(),
     ROUTE: (context) => SettingRoutePage(),
     THEME: (context) => SettingThemePage(),
+    USER_INFO: (context) => UserInfoPage(),
   };
 }
