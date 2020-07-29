@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wan_flutter_app/Routes.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
@@ -43,7 +44,7 @@ class LoginPageState extends State<LoginPage> {
       //NoSuchMethodError The getter focusScopeNode was called on null
       //https://blog.csdn.net/u011050129/article/details/106711246
       Future.delayed(Duration(milliseconds: 200)).then((e) {
-        SystemUtils.startPage(context, Const.HOME, isReplace: true);
+        SystemUtils.startPage(context, Routes.HOME, isReplace: true);
       });
     }, data: {"username": username, "password": password});
   }
@@ -97,7 +98,7 @@ class LoginPageState extends State<LoginPage> {
       GestureDetector(
         child: Text("没有账号？注册", style: TextStyle(color: Colors.blue)),
         onTap: () {
-          SystemUtils.startPage(context, Const.REGISTER);
+          SystemUtils.startPage(context, Routes.REGISTER);
         },
       )
     ]);

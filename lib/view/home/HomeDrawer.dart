@@ -8,6 +8,8 @@ import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
 import 'package:wan_flutter_app/widget/GradientView.dart';
 
+import '../../Routes.dart';
+
 /// @author DeMon
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
@@ -88,7 +90,9 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
               color: Colors.orangeAccent,
             ),
             title: Text('应用主题颜色设置'),
-            onTap: () {},
+            onTap: () {
+              SystemUtils.startPage(context, Routes.THEME);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -97,7 +101,7 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
             ),
             title: Text('页面跳转动画设置'),
             onTap: () {
-              SystemUtils.startPage(context, Const.ROUTE);
+              SystemUtils.startPage(context, Routes.ROUTE);
             },
           ),
           ListTile(

@@ -11,12 +11,18 @@ import 'package:wan_flutter_app/view/Splash.dart';
 /// E-mail 757454343@qq.com
 /// Desc:
 class Routes {
+  static const HOME = "Home";
+  static const LOGIN = "Login";
+  static const REGISTER = "Register";
+  static const ROUTE = "Route";
+  static const THEME = "Theme";
+
   static final routes = {
     "/": (context) => SplashPage(),
-    Const.HOME: (context) => HomePage(),
-    Const.LOGIN: (context) => LoginPage(),
-    Const.REGISTER: (context) => RegisterPage(),
-    Const.ROUTE: (context) => SettingRoutePage(),
-    Const.THEME: (context) => SettingThemePage(),
+    HOME: (context) => HomePage(),
+    LOGIN: (context) => LoginPage(),
+    REGISTER: (context) => RegisterPage(),
+    ROUTE: (context) => SettingRoutePage(),
+    THEME: (context) => SettingThemePage(),
   };
 }

@@ -7,10 +7,5 @@ class Const {
   static const USER_INFO = "user_info";
 
   static const ROUTE_MODE = "route_mode";
-
-  static const HOME = "Home";
-  static const LOGIN = "Login";
-  static const REGISTER = "Register";
-  static const ROUTE = "Route";
-  static const THEME = "Theme";
+  static const THEME_MODE = "theme_mode";
 }

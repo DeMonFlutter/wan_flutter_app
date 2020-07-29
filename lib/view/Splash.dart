@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
+
+import '../Routes.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
@@ -12,7 +13,7 @@ import 'package:wan_flutter_app/utils/SystemUtils.dart';
 /// Desc:
 
 var routeMode = -1;
-
+var themeMode = 0;
 class SplashPage extends StatefulWidget {
   @override
   createState() => new SplashPageState();
@@ -39,6 +40,9 @@ class SplashPageState extends State<SplashPage> with SingleTickerProviderStateMi
     SPUtils.get(Const.ROUTE_MODE, 0, (i) {
       routeMode = i;
     });
+    SPUtils.get(Const.THEME_MODE, 0, (i) {
+      themeMode = i;
+    });
     super.initState();
   }
 
@@ -46,9 +50,9 @@ class SplashPageState extends State<SplashPage> with SingleTickerProviderStateMi
     Future.delayed(Duration(milliseconds: 200)).then((e) {
       SPUtils.getData(Const.IS_LOGIN, false).then((onValue) {
         if (onValue) {
-          SystemUtils.startPage(context, Const.HOME, isReplace: true);
+          SystemUtils.startPage(context, Routes.HOME, isReplace: true);
         } else {
-          SystemUtils.startPage(context, Const.LOGIN, isReplace: true);
+          SystemUtils.startPage(context, Routes.LOGIN, isReplace: true);
         }
       });
     });
