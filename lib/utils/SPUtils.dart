@@ -1,30 +1,30 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'CallBack.dart';
+
 /// @author DeMon
 /// Created on 2020/6/15.
 /// E-mail 757454343@qq.com
 /// Desc:
 ///
 ///
-typedef SPCallback = void Function(dynamic result);
-
 class SPUtils {
-  static setData(String key, Object data) async {
+  static Future<bool> setData(String key, Object data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (data is int) {
-      await prefs.setInt(key, data);
+      return prefs.setInt(key, data);
     } else if (data is double) {
-      await prefs.setDouble(key, data);
+      return prefs.setDouble(key, data);
     } else if (data is bool) {
-      await prefs.setBool(key, data);
+      return prefs.setBool(key, data);
     } else if (data is List<String>) {
-      await prefs.setStringList(key, data);
+      return prefs.setStringList(key, data);
     } else {
-      await prefs.setString(key, data);
+      return prefs.setString(key, data);
     }
   }
 
-  static T get<T>(String key, T def, SPCallback callback) {
+  static T get<T>(String key, T def, TCallback callback) {
     getData(key, def).then((value) {
       callback(value);
     });

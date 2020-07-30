@@ -12,8 +12,8 @@ import '../Routes.dart';
 /// E-mail 757454343@qq.com
 /// Desc:
 
-var routeMode = -1;
-var themeMode = 0;
+var routeMode = -1; //路由模式
+var themeMode = 0;  //主题模式
 class SplashPage extends StatefulWidget {
   @override
   createState() => new SplashPageState();

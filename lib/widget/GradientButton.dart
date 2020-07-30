@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// @author DeMon
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
-/// Desc: 渐变按钮
+/// Desc: 渐变色按钮
 class GradientButton extends StatelessWidget {
   GradientButton(this.text, {this.colors, this.textColor, this.textSize, this.width, this.height, this.onPressed, this.borderRadius});
 

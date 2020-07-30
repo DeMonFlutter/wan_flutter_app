@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// @author DeMon
 /// Created on 2020/7/28.
 /// E-mail 757454343@qq.com
-/// Desc:
+/// Desc:页面跳转自定义动画
 class AnimationRoute extends PageRouteBuilder {
   final RouteMode mode;
   final RouteSettings settings;

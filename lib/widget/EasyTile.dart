@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wan_flutter_app/widget/OptionView.dart';
 
 /// @author DeMon
 /// Created on 2020/7/29.
 /// E-mail 757454343@qq.com
-/// Desc:
+/// Desc: 通用 左图标+标题+内容+右>图标+下分割线 样式的View
 class EasyTile extends StatelessWidget {
   EasyTile(this.title, {this.text, this.background, this.icon, this.onPressed});
 
@@ -16,12 +17,9 @@ class EasyTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    return FlatButton(
-        padding: EdgeInsets.all(0),
-        //清除内边距
+    return OptionView(
         onPressed: onPressed,
-        disabledColor: background ?? Colors.white,
-        color: background ?? Colors.white,
+        background: background,
         child: Column(
           children: <Widget>[
             ListTile(

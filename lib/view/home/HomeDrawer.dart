@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
+import 'package:wan_flutter_app/model/UserModel.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
@@ -27,6 +29,8 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    UserModel userModel = Provider.of<UserModel>(context);
+    User user = userModel.user;
     return Drawer(
         elevation: 3,
         child: ListView(padding: EdgeInsets.zero, children: <Widget>[
@@ -47,7 +51,7 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
                   Positioned(
                     left: 90,
                     child: Text(
-                      User.getInstance().nickname,
+                      user.nickname,
                       style: TextStyle(fontSize: 24, color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 3)]),
                     ),
                   ),
@@ -56,7 +60,7 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
                     right: 0,
                     bottom: 15,
                     child: Text(
-                      StringUtils.isEmpty(User.getInstance().desc) ? "I decide what tide to bring.我的命运，由我做主。" : User.getInstance().desc,
+                      StringUtils.isEmpty(user.desc) ? "I decide what tide to bring.我的命运，由我做主。" : user.desc,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 13, color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 1)]),

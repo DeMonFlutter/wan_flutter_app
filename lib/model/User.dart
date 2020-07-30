@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:wan_flutter_app/data/Const.dart';
+import 'package:wan_flutter_app/utils/CallBack.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 
@@ -42,16 +43,15 @@ class User {
 
   static User _instance;
 
-  ///通用全局单例，第一次使用时初始化
   User._internal() {
-    SPUtils.get(Const.USER_INFO, "", (str) {
-      print(str);
-      if (!StringUtils.isEmpty(str)) {
-        fromJson(json.decode(str));
-      }
-    });
+    init();
   }
 
+  /**
+   * 通用全局单例，第一次使用时初始化
+   * 由于这里使用SP存储作为持久化，SP读取异步且耗时
+   * 所以使用前需要提前初始化（如在起始过渡页），避免初次使用值为空的现象
+   */
   static User getInstance() {
     if (_instance == null) {
       _instance = User._internal();
@@ -59,44 +59,60 @@ class User {
     return _instance;
   }
 
+  init() {
+    SPUtils.get(Const.USER_INFO, "", (str) {
+      print("User init = $str");
+      if (!StringUtils.isEmpty(str)) {
+        fromJson(json.decode(str));
+      }
+    });
+  }
+
   /**
    * 本地存储登录信息，达到持久化效果
    */
   setUser(Map<String, dynamic> map) {
+    fromJson(map);
     SPUtils.setData(Const.USER_INFO, json.encode(map));
-    _instance = User._internal();
   }
 
   /**
    * 设置头像，简介等信息
    * wanAndroid Api暂无修改头像简介等信息的字段，使用SP暂存本地
    */
-  setInfo({String path = "", String desc = ""}) {
+  setInfo({String path, String desc, String email}) {
     SPUtils.get(Const.USER_INFO, "", (str) {
       if (!StringUtils.isEmpty(str)) {
         Map<String, dynamic> user = json.decode(str);
-        user['icon'] = path;
-        user['desc'] = desc;
+        if (!StringUtils.isEmpty(path)) {
+          user['icon'] = path;
+        }
+        if (!StringUtils.isEmpty(desc)) {
+          user['desc'] = desc;
+        }
+        if (!StringUtils.isEmpty(email)) {
+          user['email'] = email;
+        }
         setUser(user);
       }
     });
   }
 
   fromJson(Map<String, dynamic> json) {
-    admin = json['admin'];
-    chapterTops = json['chapterTops'].cast<String>();
-    coinCount = json['coinCount'];
-    collectIds = json['collectIds'].cast<String>();
-    email = json['email'];
-    icon = json['icon'];
-    id = json['id'];
-    nickname = json['nickname'];
-    password = json['password'];
-    publicName = json['publicName'];
-    token = json['token'];
-    type = json['type'];
-    username = json['username'];
-    desc = json['desc'];
+    _instance.admin = json['admin'];
+    _instance.chapterTops = json['chapterTops'].cast<String>();
+    _instance.coinCount = json['coinCount'];
+    _instance.collectIds = json['collectIds'].cast<String>();
+    _instance.email = json['email'];
+    _instance.icon = json['icon'];
+    _instance.id = json['id'];
+    _instance.nickname = json['nickname'];
+    _instance.password = json['password'];
+    _instance.publicName = json['publicName'];
+    _instance.token = json['token'];
+    _instance.type = json['type'];
+    _instance.username = json['username'];
+    _instance.desc = json['desc'];
   }
 
   Map<String, dynamic> toJson() {

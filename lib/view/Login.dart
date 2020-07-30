@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/Routes.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
+import 'package:wan_flutter_app/model/UserModel.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
@@ -41,11 +43,7 @@ class LoginPageState extends State<LoginPage> {
       Fluttertoast.showToast(msg: '登录成功！');
       SPUtils.setData(Const.IS_LOGIN, true);
       User.getInstance().setUser(result.data);
-      //NoSuchMethodError The getter focusScopeNode was called on null
-      //https://blog.csdn.net/u011050129/article/details/106711246
-      Future.delayed(Duration(milliseconds: 200)).then((e) {
-        SystemUtils.startPage(context, Routes.HOME, isReplace: true);
-      });
+      SystemUtils.startPage(context, Routes.HOME, isReplace: true);
     }, data: {"username": username, "password": password});
   }
 

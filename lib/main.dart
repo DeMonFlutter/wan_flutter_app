@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'Routes.dart';
 import 'model/ColorModel.dart';
+import 'model/UserModel.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ColorModel()),
+        ChangeNotifierProvider(create: (_) => UserModel()),
       ],
       child: App(),
     );

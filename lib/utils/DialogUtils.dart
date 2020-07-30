@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 
+import 'CallBack.dart';
+
 /// @author DeMon
 /// Created on 2020/7/27.
 /// E-mail 757454343@qq.com
 /// Desc:
 ///
-typedef DialogCallback = void Function();
-
 class DialogUtils {
   /**
    * http加载框 1.拦截返回框 2.空白区域点击不消失
@@ -38,7 +38,7 @@ class DialogUtils {
         });
   }
 
-  static showConfirmDialog(BuildContext context, String content, DialogCallback callback, {String title}) {
+  static showConfirmDialog(BuildContext context, String content, Callback callback, {String title}) {
     showDialog(
         context: context,
         builder: (context) {
