@@ -1,10 +1,14 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/view/SettingRoute.dart';
 import 'package:wan_flutter_app/view/SettingTheme.dart';
-import 'package:wan_flutter_app/view/UserInfo.dart';
+import 'package:wan_flutter_app/view/info/EditInfo.dart';
+import 'package:wan_flutter_app/view/info/UserInfo.dart';
 import 'package:wan_flutter_app/view/home/Home.dart';
 import 'package:wan_flutter_app/view/Login.dart';
 import 'package:wan_flutter_app/view/Register.dart';
 import 'package:wan_flutter_app/view/Splash.dart';
+import 'package:wan_flutter_app/widget/AnimationRoute.dart';
 
 /// @author DeMon
 /// Created on 2020/7/24.
@@ -17,6 +21,7 @@ class Routes {
   static const ROUTE = "Route";
   static const THEME = "Theme";
   static const USER_INFO = "User_Info";
+  static const EDIT_INFO = "Edit_Info";
 
   static final routes = {
     "/": (context) => SplashPage(),
@@ -26,5 +31,35 @@ class Routes {
     ROUTE: (context) => SettingRoutePage(),
     THEME: (context) => SettingThemePage(),
     USER_INFO: (context) => UserInfoPage(),
+    EDIT_INFO: (context) => EditInfoPage(),
   };
+
+  /// 封装过渡动画的路由跳转
+  static Future startPage(BuildContext context, String routeName, {Object arguments, bool isReplace = false}) {
+    //系统默认：MaterialPageRoute无效果
+    if (routeMode == 0) {
+      if (isReplace) {
+        return Navigator.of(context).pushReplacementNamed(routeName, arguments: arguments);
+      } else {
+        return Navigator.of(context).pushNamed(routeName, arguments: arguments);
+      }
+    }
+    var pageRoute;
+    //App内默认效果，CupertinoPageRoute ios风格过渡动画，具有左右滑动效果
+    if (routeMode == -1) {
+      pageRoute = CupertinoPageRoute(builder: Routes.routes[routeName], settings: RouteSettings(arguments: arguments, name: routeName));
+    } else {
+      pageRoute = AnimationRoute(
+          builder: Routes.routes[routeName],
+          mode: RouteMode.values[routeMode],
+          settings: RouteSettings(
+            arguments: arguments,
+            name: routeName,
+          ));
+    }
+    if (isReplace) {
+      Navigator.of(context).pop();
+    }
+    return Navigator.of(context).push(pageRoute);
+  }
 }

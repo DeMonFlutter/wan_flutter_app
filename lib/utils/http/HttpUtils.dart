@@ -54,9 +54,7 @@ class HttpUtils {
     _dio.options.baseUrl = baseUrl;
   }
 
-  /**
-   * wanAndroid Api get请求封装
-   */
+  /// wanAndroid Api get请求封装
   get(BuildContext context, String url, HttpCallback callback, {bool isShowDialog = true, bool isJson = true, int page = -1, Map<String, dynamic> param}) {
     Future.sync(() async {
       if (isShowDialog) {
@@ -91,9 +89,7 @@ class HttpUtils {
     });
   }
 
-  /**
-   * wanAndroid Api post请求封装
-   */
+  /// wanAndroid Api post请求封装
   post(BuildContext context, String url, HttpCallback callback, {bool isShowDialog = true, int page = -1, bool isJson = false, Map<String, dynamic> data}) {
     Future.sync(() async {
       if (isShowDialog) {

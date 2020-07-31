@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:wan_flutter_app/data/Const.dart';
-import 'package:wan_flutter_app/utils/CallBack.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 
@@ -47,11 +46,9 @@ class User {
     init();
   }
 
-  /**
-   * 通用全局单例，第一次使用时初始化
-   * 由于这里使用SP存储作为持久化，SP读取异步且耗时
-   * 所以使用前需要提前初始化（如在起始过渡页），避免初次使用值为空的现象
-   */
+  /// 通用全局单例，第一次使用时初始化
+  /// 由于这里使用SP存储作为持久化，SP读取异步且耗时
+  /// 所以使用前需要提前初始化（如在起始过渡页），避免初次使用值为空的现象
   static User getInstance() {
     if (_instance == null) {
       _instance = User._internal();
@@ -68,18 +65,14 @@ class User {
     });
   }
 
-  /**
-   * 本地存储登录信息，达到持久化效果
-   */
+  /// 本地存储登录信息，达到持久化效果
   setUser(Map<String, dynamic> map) {
     fromJson(map);
     SPUtils.setData(Const.USER_INFO, json.encode(map));
   }
 
-  /**
-   * 设置头像，简介等信息
-   * wanAndroid Api暂无修改头像简介等信息的字段，使用SP暂存本地
-   */
+  /// 设置头像，简介等信息
+  /// wanAndroid Api暂无修改头像简介等信息的字段，使用SP暂存本地
   setInfo({String path, String desc, String email}) {
     SPUtils.get(Const.USER_INFO, "", (str) {
       if (!StringUtils.isEmpty(str)) {

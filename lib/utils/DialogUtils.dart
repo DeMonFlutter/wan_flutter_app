@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 
 import 'CallBack.dart';
@@ -10,9 +11,8 @@ import 'CallBack.dart';
 /// Desc:
 ///
 class DialogUtils {
-  /**
-   * http加载框 1.拦截返回框 2.空白区域点击不消失
-   */
+
+  /// http加载框 1.拦截返回框 2.空白区域点击不消失
   static showLoadingDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -30,7 +30,7 @@ class DialogUtils {
                       width: 250,
                       child: AlertDialog(
                           content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                        CircularProgressIndicator(),
+                        SpinKitFadingCube(color: Theme.of(context).primaryColor),
                         Padding(padding: EdgeInsets.only(top: 25.0), child: Text("加载中，请稍后...")),
                       ]))),
                 ),

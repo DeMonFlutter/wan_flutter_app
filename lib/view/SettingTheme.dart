@@ -17,7 +17,7 @@ class SettingThemePage extends StatefulWidget {
 }
 
 class SettingThemePageState extends State<SettingThemePage> {
-  List<String> colorStr = ["默认蓝", "健康绿", "天空蓝", "少女粉", "中国红", "幸运橙", "温暖橙", "魅力紫", "诱惑紫", "蓝靛青", "清新青", "茶叶绿", "琥珀黄", "活力黄"];
+  List<String> colorStr = ["永恒蓝(默认)", "健康绿", "天空蓝", "少女粉", "激情红", "幸运橙", "温暖橙", "魅力紫", "诱惑紫", "蓝靛青", "清新青", "茶叶绿", "琥珀黄", "活力黄"];
 
   ColorModel model;
 
@@ -52,17 +52,18 @@ class SettingThemePageState extends State<SettingThemePage> {
   @override
   Widget build(BuildContext context) {
     model = Provider.of<ColorModel>(context);
-    return Scaffold(
-      appBar: AppBar(title: Text("设置主题颜色")),
-      body: Container(
-        padding: EdgeInsets.only(top: 50),
-        alignment: Alignment.center,
-        child: GridView.builder(
+    return CenterScaffold(
+      "设置主题颜色",
+      <Widget>[
+        Divider(height: 50, color: Colors.transparent),
+        GridView.builder(
+          shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 15, childAspectRatio: 1 / 0.2),
           itemCount: ColorModel.themeColors.length,
           itemBuilder: (context, i) => _buildColors(i),
-        ),
-      ),
+        )
+      ],
+      alignment: Alignment.topCenter,
     );
   }
 }

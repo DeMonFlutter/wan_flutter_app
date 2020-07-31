@@ -50,9 +50,9 @@ class SplashPageState extends State<SplashPage> with SingleTickerProviderStateMi
     Future.delayed(Duration(milliseconds: 200)).then((e) {
       SPUtils.getData(Const.IS_LOGIN, false).then((onValue) {
         if (onValue) {
-          SystemUtils.startPage(context, Routes.HOME, isReplace: true);
+          Routes.startPage(context, Routes.HOME, isReplace: true);
         } else {
-          SystemUtils.startPage(context, Routes.LOGIN, isReplace: true);
+          Routes.startPage(context, Routes.LOGIN, isReplace: true);
         }
       });
     });
@@ -89,7 +89,7 @@ class SplashPageState extends State<SplashPage> with SingleTickerProviderStateMi
               child: Text("wanFlutter"),
               overflow: TextOverflow.ellipsis,
               style: TextStyleTween(
-                begin: TextStyle(color: Colors.white, fontSize: 10, shadows: [Shadow(offset: Offset(1, 1), color: Colors.purple, blurRadius: 2)]),
+                begin: TextStyle(color: Colors.white, fontSize: 10, shadows: [Shadow(offset: Offset(1, 1), color: Colors.blue, blurRadius: 2)]),
                 end: TextStyle(color: Colors.blue, fontSize: 40, shadows: [Shadow(offset: Offset(1, 1), color: Colors.black, blurRadius: 2)]),
               ).animate(_ctrl),
             )),

@@ -5,7 +5,6 @@ import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/model/UserModel.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
-import 'package:wan_flutter_app/utils/SystemUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/widget/GradientView.dart';
 
@@ -39,7 +38,7 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
             decoration: BoxDecoration(color: theme.primaryColor),
             child: GradientView(
               onPressed: () {
-                SystemUtils.startPage(context, Routes.USER_INFO);
+                Routes.startPage(context, Routes.USER_INFO);
               },
               child: Stack(
                 alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
@@ -86,7 +85,7 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
             ),
             title: Text('应用主题颜色设置'),
             onTap: () {
-              SystemUtils.startPage(context, Routes.THEME);
+              Routes.startPage(context, Routes.THEME);
             },
           ),
           ListTile(
@@ -96,7 +95,7 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
             ),
             title: Text('页面跳转动画设置'),
             onTap: () {
-              SystemUtils.startPage(context, Routes.ROUTE);
+              Routes.startPage(context, Routes.ROUTE);
             },
           ),
           ListTile(

@@ -35,6 +35,7 @@ class App extends StatelessWidget {
           primaryColor: model.themeColor,
           primaryColorDark: model.themeColorDark,
           accentColor: model.accentColor,
+          errorColor: model.themeColor.withOpacity(0.8),
           iconTheme: IconThemeData(color: model.themeColor),
         ));
   }

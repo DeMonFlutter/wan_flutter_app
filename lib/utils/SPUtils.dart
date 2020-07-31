@@ -24,7 +24,7 @@ class SPUtils {
     }
   }
 
-  static T get<T>(String key, T def, TCallback callback) {
+  static get<T>(String key, T def, TCallback callback) {
     getData(key, def).then((value) {
       callback(value);
     });

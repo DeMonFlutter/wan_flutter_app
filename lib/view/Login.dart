@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/Routes.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
-import 'package:wan_flutter_app/model/UserModel.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
@@ -43,7 +41,7 @@ class LoginPageState extends State<LoginPage> {
       Fluttertoast.showToast(msg: '登录成功！');
       SPUtils.setData(Const.IS_LOGIN, true);
       User.getInstance().setUser(result.data);
-      SystemUtils.startPage(context, Routes.HOME, isReplace: true);
+      Routes.startPage(context, Routes.HOME, isReplace: true);
     }, data: {"username": username, "password": password});
   }
 
@@ -96,7 +94,7 @@ class LoginPageState extends State<LoginPage> {
       GestureDetector(
         child: Text("没有账号？注册", style: TextStyle(color: Colors.blue)),
         onTap: () {
-          SystemUtils.startPage(context, Routes.REGISTER);
+          Routes.startPage(context, Routes.REGISTER);
         },
       )
     ]);

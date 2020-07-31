@@ -29,6 +29,8 @@ dependencies:
   shared_preferences: ^0.5.7+3
   # Toast
   fluttertoast: ^4.0.1
+  # 进度条
+  flutter_spinkit: ^4.1.2+1
   # dio
   dio: ^3.0.9
   # 网络状态
