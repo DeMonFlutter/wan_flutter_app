@@ -55,10 +55,14 @@ class SettingThemePageState extends State<SettingThemePage> {
     return CenterScaffold(
       "设置主题颜色",
       <Widget>[
-        Divider(height: 50, color: Colors.transparent),
         GridView.builder(
+          padding: EdgeInsets.only(bottom: 50, top: 50),
           shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 15, childAspectRatio: 1 / 0.2),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 20,
+            childAspectRatio: 1 / 0.2,
+          ),
           itemCount: ColorModel.themeColors.length,
           itemBuilder: (context, i) => _buildColors(i),
         )

@@ -23,15 +23,17 @@ const EDIT_DESC = 2;
 
 class UserInfoPageState extends State<UserInfoPage> {
   var what = -1;
-
+  var content = "";
+  UserModel userModel;
   editInfo() {
-    Routes.startPage(context, Routes.EDIT_INFO, arguments: what);
+    Routes.startPage(context, Routes.EDIT_INFO, arguments: {'what': what, 'content': content}).then((onValue){
+      userModel.changeUser();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    UserModel userModel = Provider.of<UserModel>(context);
-
+    userModel = Provider.of<UserModel>(context);
     return CenterScaffold(
       "用户信息",
       <Widget>[
@@ -40,18 +42,21 @@ class UserInfoPageState extends State<UserInfoPage> {
         EasyTile("账号", text: userModel.user.username, icon: Icons.account_box),
         EasyTile("昵称", text: userModel.user.nickname, icon: Icons.account_circle, onPressed: () {
           what = EDIT_NAME;
+          content = userModel.user.nickname;
           editInfo();
         }),
         EasyTile("邮箱", text: userModel.user.email, icon: Icons.email, onPressed: () {
           what = EDIT_EMAIL;
+          content = userModel.user.email;
           editInfo();
         }),
         EasyTile(
           "个性签名",
-          text: StringUtils.isEmpty(userModel.user.desc) ? "I decide what tide to bring.我的命运，由我做主。" : userModel.user.desc,
+          text: userModel.user.getDesc(),
           icon: Icons.assignment,
           onPressed: () {
             what = EDIT_DESC;
+            content = userModel.user.getDesc();
             editInfo();
           },
         ),

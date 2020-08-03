@@ -8,6 +8,8 @@ import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CenterScaffold.dart';
+import 'package:wan_flutter_app/widget/EasyEditForm.dart';
+import 'package:wan_flutter_app/widget/EasyForm.dart';
 import 'package:wan_flutter_app/widget/EditForm.dart';
 import 'package:wan_flutter_app/widget/GradientButton.dart';
 
@@ -22,21 +24,9 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   String username, password;
-
   FocusNode focusNode = FocusNode(); //密码框焦点
 
-  login(BuildContext context) {
-    SystemUtils.hideSoftKeyboard(context);
-    if (StringUtils.isEmpty(username)) {
-      Fluttertoast.showToast(msg: '用户名不能为空！');
-      return;
-    }
-
-    if (StringUtils.isEmpty(password)) {
-      Fluttertoast.showToast(msg: '密码不能为空！');
-      return;
-    }
-
+  login() {
     HttpUtils.instance.post(context, "user/login", (result) {
       Fluttertoast.showToast(msg: '登录成功！');
       SPUtils.setData(Const.IS_LOGIN, true);
@@ -55,41 +45,40 @@ class LoginPageState extends State<LoginPage> {
         margin: EdgeInsets.all(20),
       ),
       Text("使用玩Android账号登录"),
-      Padding(
-        padding: EdgeInsets.all(20),
-        child: EditForm(
-          icon: Icons.account_circle,
-          hintText: "请输入您的用户名",
-          textInputAction: TextInputAction.next,
-          onEditingComplete: () {
-            FocusScope.of(context).requestFocus(focusNode);
-          },
-          onChanged: (value) {
-            username = value;
-          },
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.all(20),
-        child: EditForm(
-          icon: Icons.lock_outline,
-          obscureText: true,
-          focusNode: focusNode,
-          hintText: "请输入您的密码",
-          onChanged: (value) {
-            password = value;
-          },
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.all(20),
-        child: GradientButton(
-          "登录",
-          height: 45,
-          onPressed: () {
-            login(context);
-          },
-        ),
+      EasyForm(
+        children: <Widget>[
+          EasyEditForm(
+              icon: Icons.account_circle,
+              hintText: "请输入您的用户名",
+              labelText: "用户名",
+              helperText: "用户名不区分大小写~",
+              editMode: EditMode.clear,
+              textInputAction: TextInputAction.next,
+              onEditingComplete: () {
+                FocusScope.of(context).requestFocus(focusNode);
+              },
+              onChanged: (value) {
+                username = value;
+              },
+              validator: (v) {
+                return StringUtils.isEmpty(v) ? "用户名不能为空！" : null;
+              }),
+          EasyEditForm(
+            icon: Icons.lock_outline,
+            labelText: "密码",
+            editMode: EditMode.password,
+            focusNode: focusNode,
+            validator: (v) {
+              return StringUtils.isEmpty(v) ? "密码不能为空！" : null;
+            },
+            hintText: "请输入您的密码",
+            onChanged: (value) {
+              password = value;
+            },
+          )
+        ],
+        buttonText: "登录",
+        callback: () => login(),
       ),
       GestureDetector(
         child: Text("没有账号？注册", style: TextStyle(color: Colors.blue)),

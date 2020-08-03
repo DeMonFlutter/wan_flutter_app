@@ -59,7 +59,7 @@ class HomeDrawerViewState extends State<HomeDrawerView> {
                     right: 0,
                     bottom: 15,
                     child: Text(
-                      StringUtils.isEmpty(user.desc) ? "I decide what tide to bring.我的命运，由我做主。" : user.desc,
+                      user.getDesc(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 13, color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 1)]),

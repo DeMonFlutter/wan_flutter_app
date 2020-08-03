@@ -73,7 +73,7 @@ class User {
 
   /// 设置头像，简介等信息
   /// wanAndroid Api暂无修改头像简介等信息的字段，使用SP暂存本地
-  setInfo({String path, String desc, String email}) {
+  setInfo({String path, String desc, String email, String nickname}) {
     SPUtils.get(Const.USER_INFO, "", (str) {
       if (!StringUtils.isEmpty(str)) {
         Map<String, dynamic> user = json.decode(str);
@@ -86,9 +86,16 @@ class User {
         if (!StringUtils.isEmpty(email)) {
           user['email'] = email;
         }
+        if (!StringUtils.isEmpty(nickname)) {
+          user['nickname'] = nickname;
+        }
         setUser(user);
       }
     });
+  }
+
+  String getDesc() {
+    return StringUtils.isEmpty(_instance.desc) ? "I decide what tide to bring.我的命运，由我做主。" : _instance.desc;
   }
 
   fromJson(Map<String, dynamic> json) {

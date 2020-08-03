@@ -76,10 +76,10 @@ class HttpUtils {
         if (result.errorCode == 0) {
           return result;
         } else {
-          throw ('${result.errorCode}：${result.errorMsg}');
+          throw ('${result.errorCode},${result.errorMsg}');
         }
       } else {
-        throw ('${response.statusCode}：${response.statusMessage}');
+        throw ('${response.statusCode},${response.statusMessage}');
       }
     }).then((onValue) {
       callback(onValue);
@@ -111,10 +111,10 @@ class HttpUtils {
         if (result.errorCode == 0) {
           return result;
         } else {
-          throw ('${result.errorCode}-${result.errorMsg}');
+          throw ('${result.errorCode},${result.errorMsg}');
         }
       } else {
-        throw ('${response.statusCode}-${response.statusMessage}');
+        throw ('${response.statusCode},${response.statusMessage}');
       }
     }).then((onValue) {
       callback(onValue);
