@@ -1,3 +1,4 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,7 +6,9 @@ import 'Routes.dart';
 import 'model/ColorModel.dart';
 import 'model/UserModel.dart';
 
+EventBus eventBus;
 void main() {
+  eventBus = EventBus();
   runApp(MyApp());
 }
 
