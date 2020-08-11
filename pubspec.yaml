@@ -37,6 +37,8 @@ dependencies:
   connectivity: ^0.4.8+6
   # event_bus
   event_bus: ^1.1.1
+  # banner轮播
+  flutter_swiper: ^1.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,7 +59,7 @@ flutter:
   assets:
     - res/images/wan.png
     - res/images/D.png
-
+    - res/images/bg.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
