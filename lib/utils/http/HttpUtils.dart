@@ -54,6 +54,27 @@ class HttpUtils {
     _dio.options.baseUrl = baseUrl;
   }
 
+  Future<RepResult> getFuture(String url, {int page = -1, bool isJson = true, Map<String, dynamic> param}) async {
+    if (page != -1) {
+      url += "/$page";
+    }
+    if (isJson) {
+      url += "/json";
+    }
+    var response = await _dio.get(url, queryParameters: param);
+    if (response.statusCode == HttpStatus.ok) {
+      var result = RepResult.fromJson(response.data);
+      print(result.toString());
+      if (result.errorCode == 0) {
+        return result;
+      } else {
+        throw ('${result.errorCode},${result.errorMsg}');
+      }
+    } else {
+      throw ('${response.statusCode},${response.statusMessage}');
+    }
+  }
+
   /// wanAndroid Api get请求封装
   get(BuildContext context, String url, HttpCallback callback, {bool isShowDialog = true, bool isJson = true, int page = -1, Map<String, dynamic> param}) {
     Future.sync(() async {
@@ -87,6 +108,27 @@ class HttpUtils {
       print('$url--$e');
       Fluttertoast.showToast(msg: '请求失败：$e');
     });
+  }
+
+  Future<RepResult> postFuture(String url, {int page = -1, bool isJson = true, Map<String, dynamic> data}) async {
+    if (page != -1) {
+      url += "/$page";
+    }
+    if (isJson) {
+      url += "/json";
+    }
+    var response = await _dio.post(url, data: new FormData.fromMap(data));
+    if (response.statusCode == HttpStatus.ok) {
+      var result = RepResult.fromJson(response.data);
+      print(result.toString());
+      if (result.errorCode == 0) {
+        return result;
+      } else {
+        throw ('${result.errorCode},${result.errorMsg}');
+      }
+    } else {
+      throw ('${response.statusCode},${response.statusMessage}');
+    }
   }
 
   /// wanAndroid Api post请求封装

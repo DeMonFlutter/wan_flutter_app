@@ -39,6 +39,8 @@ dependencies:
   event_bus: ^1.1.1
   # banner轮播
   flutter_swiper: ^1.1.6
+  # 下拉刷新，上滑加载更多
+  flutter_easyrefresh: ^2.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,7 +62,8 @@ flutter:
     - res/images/wan.png
     - res/images/D.png
     - res/images/bg.jpg
-
+    - res/images/data_empty.png
+    - res/images/data_error.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
