@@ -42,8 +42,8 @@ class HomeBottomBarState extends State<HomeBottomBar> {
             direction: Axis.vertical,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: <Widget>[
-              Icon(iconMap[info[i]], color: active ? color : Colors.grey, size: 25),
-              Text(info[i], style: TextStyle(color: active ? color : Colors.grey, fontSize: 12))
+              Icon(iconMap[info[i]], color: active ? color : Colors.grey, size: 28),
+              Text(info[i], style: TextStyle(color: active ? color : Colors.grey, fontSize: 10))
             ],
           ),
         ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wan_flutter_app/event/DrawerEvent.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
-import 'package:wan_flutter_app/widget/RefreshLayout.dart';
-
+import 'package:wan_flutter_app/view/home/HotBlog.dart';
+import 'package:wan_flutter_app/view/home/HotProject.dart';
 import '../../main.dart';
 
 /// @author DeMon
@@ -18,145 +17,103 @@ class PageViewHome extends StatefulWidget {
   createState() => new PageViewHomeState();
 }
 
-final data = <Color>[
-  Colors.purple[50],
-  Colors.purple[100],
-  Colors.purple[200],
-  Colors.purple[300],
-  Colors.purple[400],
-  Colors.purple[500],
-  Colors.purple[600],
-  Colors.purple[700],
-  Colors.purple[800],
-  Colors.purple[900],
-];
 final List tabs = ["热门博文", "热门项目"];
 
 class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderStateMixin {
   int showWidget = 0;
-  List<dynamic> bannerList = List();
 
-  TabController _tabController;
+  TabController _timeTabController;
 
   @override
   void initState() {
+    _timeTabController = TabController(length: tabs.length, vsync: this);
     super.initState();
-    _tabController = TabController(length: tabs.length, vsync: this);
-  }
-
-  Future<List<RepResult>> mockNetworkData() async {
-    return Future.wait([HttpUtils.instance.getFuture("banner")]).then((datas) {
-      setState(() {
-        bannerList = datas[0].data;
-      });
-    }).catchError((onError) {
-      setState(() {
-        showWidget = 2;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    /*return Scaffold(
-      appBar: AppBar(
-          leading: IconButton(
-            icon: ViewUtils.buildAvatar(),
-            onPressed: () {
-              eventBus.fire(DrawerEvent());
-            },
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return <Widget>[
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            sliver: _buildSliverAppBar(),
           ),
-          title: Text("主页", textAlign: TextAlign.center)),
-      body: RefreshLayout(
-        slivers: <Widget>[_buildSwiper(),_buildSliverFixedExtentList()],
-        onRefresh: mockNetworkData,
-        showWidget: showWidget,
-      ),
-    );*/
-
-    return RefreshLayout(
-      slivers: <Widget>[_buildSliverAppBar(), _buildTabBars(), _buildSliverFixedExtentList()],
-      onRefresh: mockNetworkData,
-      showWidget: showWidget,
+          _buildTabBars()
+        ];
+      },
+      body: _buildTabBarView(),
     );
   }
 
   Widget _buildSliverAppBar() {
     return SliverAppBar(
-      expandedHeight: 190.0,
-      leading: IconButton(
-          icon: ViewUtils.buildAvatar(),
-          onPressed: () {
-            eventBus.fire(DrawerEvent());
-          }),
-      title: Text("主页", textAlign: TextAlign.center),
-      pinned: true,
-      flexibleSpace: FlexibleSpaceBar(
-        //伸展处布局
-        titlePadding: EdgeInsets.only(left: 55, bottom: 15), //标题边距
-        collapseMode: CollapseMode.parallax, //视差效果
-        background: Swiper(
-          itemBuilder: (context, index) {
-            return new Image.network(
-              bannerList[index]['imagePath'],
-              fit: BoxFit.fill,
-            );
-          },
-          itemCount: bannerList.length,
-          autoplay: true,
-          autoplayDelay: 5000,
-          pagination: SwiperPagination(),
-        ),
-      ),
-    );
+        expandedHeight: 180.0,
+        leading: IconButton(
+            icon: ViewUtils.buildAvatar(),
+            onPressed: () {
+              eventBus.fire(DrawerEvent());
+            }),
+        title: Text("主页", textAlign: TextAlign.center),
+        pinned: true,
+        flexibleSpace: FlexibleSpaceBar(
+          collapseMode: CollapseMode.parallax, //视差效果
+          background: _buildSwiper(),
+        ));
   }
 
   Widget _buildSwiper() {
-    return SliverToBoxAdapter(
-        child: Container(
-            height: 180,
-            child: Swiper(
+    return FutureBuilder<RepResult>(
+      future: HttpUtils.instance.getFuture("banner"),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          List bannerList = snapshot.data.data;
+          if (snapshot.hasError || bannerList.isEmpty) {
+            return Image.asset(
+              'res/images/bg.jpg',
+              fit: BoxFit.fill,
+            );
+          } else {
+            return Swiper(
               itemBuilder: (context, index) {
                 return new Image.network(
                   bannerList[index]['imagePath'],
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 );
               },
               itemCount: bannerList.length,
-              autoplay: true,
+              autoplay: bannerList.length > 1,
               autoplayDelay: 5000,
               pagination: SwiperPagination(),
-            )));
+            );
+          }
+        } else {
+          return Image.asset('res/images/bg.jpg');
+        }
+      },
+    );
   }
 
   Widget _buildTabBars() {
     return SliverPersistentHeader(
         pinned: true,
         delegate: _SliverDelegate(
-            child: Container(
-          child: TabBar(
-            indicatorSize: TabBarIndicatorSize.label,
-            controller: _tabController,
-            tabs: tabs.map((e) => Tab(text: e)).toList(),
-          ),
-          color: Theme.of(context).primaryColor,
-        )));
+            child: Card(
+                elevation: 3.0,
+                color: Theme.of(context).primaryColor,
+                margin: new EdgeInsets.all(0.0),
+                shape: new RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                child: TabBar(
+                  controller: _timeTabController,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  tabs: tabs.map((e) => Tab(text: e)).toList(),
+                ))));
   }
 
-  Widget _buildSliverFixedExtentList() => SliverFixedExtentList(
-        itemExtent: 60,
-        delegate: SliverChildBuilderDelegate(
-            (_, int index) => Container(
-                  alignment: Alignment.center,
-                  width: 100,
-                  height: 50,
-                  color: data[index],
-                  child: Text(
-                    "$index",
-                    style: TextStyle(color: Colors.white, shadows: [Shadow(color: Colors.black, offset: Offset(.5, .5), blurRadius: 2)]),
-                  ),
-                ),
-            childCount: data.length),
+  Widget _buildTabBarView() => SafeArea(
+        top: false,
+        bottom: false,
+        child: TabBarView(controller: _timeTabController, children: <Widget>[HotBlogPage(), HotProjectPage()]),
       );
 }
 

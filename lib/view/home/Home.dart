@@ -36,14 +36,11 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: HomeDrawerView(),
-      body: HomePageView(
-          controller: _controller,
-          onPageChanged: (i) => setState(() {
-                pos = i;
-              })),
+      body: HomePageView(controller: _controller),
       bottomNavigationBar: HomeBottomBar(
         currentIndex: pos,
         callback: (i) {
+          pos = i;
           _controller.animateToPage(i, duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
         },
       ),

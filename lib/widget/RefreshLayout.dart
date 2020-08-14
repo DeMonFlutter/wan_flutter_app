@@ -58,12 +58,18 @@ class RefreshLayoutState extends State<RefreshLayout> with AutomaticKeepAliveCli
 
   @override
   Widget build(BuildContext context) {
+    Color color = Theme.of(context).primaryColor;
     return EasyRefresh.custom(
       controller: _controller,
-      header: BallPulseHeader(),
-      footer: BallPulseFooter(),
+      header: MaterialHeader(),
+      footer: BallPulseFooter(color: color),
       firstRefresh: true,
-      firstRefreshWidget: ViewUtils.buildLoading(context),
+      firstRefreshWidget: Container(
+          alignment: Alignment.center,
+          child: SpinKitThreeBounce(
+            color: Theme.of(context).primaryColor,
+            size: 25,
+          )),
       emptyWidget: emptyWidget(),
       slivers: widget.slivers,
       onRefresh: widget.onRefresh,
