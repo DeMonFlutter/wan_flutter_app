@@ -4,6 +4,7 @@ import 'package:wan_flutter_app/event/DrawerEvent.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
+import 'package:wan_flutter_app/view/home/HomeSwiper.dart';
 import 'package:wan_flutter_app/view/home/HotBlog.dart';
 import 'package:wan_flutter_app/view/home/HotProject.dart';
 import '../../main.dart';
@@ -62,41 +63,11 @@ class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderSta
         pinned: true,
         flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.parallax, //视差效果
-          background: _buildSwiper(),
+          background: HomeSwiper(),
         ));
   }
 
-  Widget _buildSwiper() {
-    return FutureBuilder<RepResult>(
-      future: HttpUtils.instance.getFuture("banner"),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          List bannerList = snapshot.data.data;
-          if (snapshot.hasError || bannerList.isEmpty) {
-            return Image.asset(
-              'res/images/bg.jpg',
-              fit: BoxFit.fill,
-            );
-          } else {
-            return Swiper(
-              itemBuilder: (context, index) {
-                return new Image.network(
-                  bannerList[index]['imagePath'],
-                  fit: BoxFit.cover,
-                );
-              },
-              itemCount: bannerList.length,
-              autoplay: bannerList.length > 1,
-              autoplayDelay: 5000,
-              pagination: SwiperPagination(),
-            );
-          }
-        } else {
-          return Image.asset('res/images/bg.jpg');
-        }
-      },
-    );
-  }
+
 
   Widget _buildTabBars() {
     return SliverPersistentHeader(
