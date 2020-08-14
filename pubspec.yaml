@@ -41,7 +41,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   # 下拉刷新，上滑加载更多
   flutter_easyrefresh: ^2.1.5
-
+  extended_nested_scroll_view: ^1.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

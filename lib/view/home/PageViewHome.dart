@@ -7,6 +7,7 @@ import 'package:wan_flutter_app/utils/http/RepResult.dart';
 import 'package:wan_flutter_app/view/home/HotBlog.dart';
 import 'package:wan_flutter_app/view/home/HotProject.dart';
 import '../../main.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart' as extended;
 
 /// @author DeMon
 /// Created on 2020/4/23.
@@ -22,25 +23,28 @@ final List tabs = ["热门博文", "热门项目"];
 class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderStateMixin {
   int showWidget = 0;
 
-  TabController _timeTabController;
+  TabController _tabController;
+  ScrollController _scrollController;
 
   @override
   void initState() {
-    _timeTabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(length: tabs.length, vsync: this);
+    _scrollController = ScrollController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
+    return extended.NestedScrollView(
+      controller: _scrollController,
+      pinnedHeaderSliverHeightBuilder: () {
+        return MediaQuery.of(context).padding.top + kToolbarHeight;
+      },
+      innerScrollPositionKeyBuilder: () {
+        return Key('HomeTab${_tabController.index}');
+      },
       headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return <Widget>[
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            sliver: _buildSliverAppBar(),
-          ),
-          _buildTabBars()
-        ];
+        return <Widget>[_buildSliverAppBar(), _buildTabBars()];
       },
       body: _buildTabBarView(),
     );
@@ -104,17 +108,16 @@ class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderSta
                 margin: new EdgeInsets.all(0.0),
                 shape: new RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(0.0))),
                 child: TabBar(
-                  controller: _timeTabController,
+                  controller: _tabController,
                   indicatorSize: TabBarIndicatorSize.label,
                   tabs: tabs.map((e) => Tab(text: e)).toList(),
                 ))));
   }
 
-  Widget _buildTabBarView() => SafeArea(
-        top: false,
-        bottom: false,
-        child: TabBarView(controller: _timeTabController, children: <Widget>[HotBlogPage(), HotProjectPage()]),
-      );
+  Widget _buildTabBarView() => TabBarView(controller: _tabController, children: <Widget>[
+        extended.NestedScrollViewInnerScrollPositionKeyWidget(Key('HomeTab0'), HotBlogPage()),
+        extended.NestedScrollViewInnerScrollPositionKeyWidget(Key('HomeTab1'), HotProjectPage()),
+      ]);
 }
 
 class _SliverDelegate extends SliverPersistentHeaderDelegate {
