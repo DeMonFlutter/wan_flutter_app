@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/widget/GradientButton.dart';
 
 /// @author DeMon
@@ -12,7 +11,6 @@ class RefreshLayout extends StatefulWidget {
   final OnRefreshCallback onRefresh;
   final OnLoadCallback onLoad;
   final List<Widget> slivers;
-
   //0 不显示 1 空视图 2.错误视图
   final int showWidget;
 

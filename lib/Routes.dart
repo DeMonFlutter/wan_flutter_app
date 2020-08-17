@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/view/SettingRoute.dart';
 import 'package:wan_flutter_app/view/SettingTheme.dart';
+import 'package:wan_flutter_app/view/WebView.dart';
 import 'package:wan_flutter_app/view/info/EditInfo.dart';
 import 'package:wan_flutter_app/view/info/UserInfo.dart';
 import 'package:wan_flutter_app/view/home/Home.dart';
@@ -9,6 +10,7 @@ import 'package:wan_flutter_app/view/Login.dart';
 import 'package:wan_flutter_app/view/Register.dart';
 import 'package:wan_flutter_app/view/Splash.dart';
 import 'package:wan_flutter_app/widget/AnimationRoute.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 /// @author DeMon
 /// Created on 2020/7/24.
@@ -22,6 +24,7 @@ class Routes {
   static const THEME = "Theme";
   static const USER_INFO = "User_Info";
   static const EDIT_INFO = "Edit_Info";
+  static const WEBVIEW = "WebView";
 
   static final routes = {
     "/": (context) => SplashPage(),
@@ -32,6 +35,7 @@ class Routes {
     THEME: (context) => SettingThemePage(),
     USER_INFO: (context) => UserInfoPage(),
     EDIT_INFO: (context) => EditInfoPage(),
+    WEBVIEW: (context) => WebViewPage(),
   };
 
   /// 封装过渡动画的路由跳转
@@ -61,5 +65,9 @@ class Routes {
       Navigator.of(context).pop();
     }
     return Navigator.of(context).push(pageRoute);
+  }
+
+  static Future startWebView(BuildContext context, Object arguments) {
+    return startPage(context, WEBVIEW, arguments: arguments);
   }
 }

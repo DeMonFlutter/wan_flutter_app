@@ -14,7 +14,7 @@ class HotDelegate extends SlideActionDelegate {
     return IconSlideAction(
       caption: '收藏',
       color: Colors.red,
-      icon: Icons.collections_bookmark,
+      icon: Icons.favorite,
     );
   }
 }

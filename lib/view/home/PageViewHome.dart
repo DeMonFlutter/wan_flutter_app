@@ -5,10 +5,11 @@ import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
 import 'package:wan_flutter_app/view/home/HomeSwiper.dart';
-import 'file:///D:/ITCode/Flutter/wan_flutter_app/lib/view/home/hot/HotBlog.dart';
-import 'file:///D:/ITCode/Flutter/wan_flutter_app/lib/view/home/hot/HotProject.dart';
 import '../../main.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart' as extended;
+
+import 'HotBlog.dart';
+import 'HotProject.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.

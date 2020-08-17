@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:wan_flutter_app/Routes.dart';
+import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
-import 'package:wan_flutter_app/view/home/hot/HotDelegate.dart';
+import 'file:///D:/ITCode/Flutter/wan_flutter_app/lib/view/home/HotDelegate.dart';
 import 'package:wan_flutter_app/widget/NestedRefresh.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
-class HotProjectPage extends StatefulWidget {
+class HotBlogPage extends StatefulWidget {
   @override
-  createState() => new HotProjectPageState();
+  createState() => new HotBlogPageState();
 }
 
-class HotProjectPageState extends State<HotProjectPage> {
+class HotBlogPageState extends State<HotBlogPage> {
   bool firstRefresh = true;
   int page = 0;
   int showWidget = 0;
@@ -26,14 +28,12 @@ class HotProjectPageState extends State<HotProjectPage> {
     if (page == 0) {
       dataList.clear();
     }
-    return Future.wait([HttpUtils.instance.getFuture("article/listproject", page: page)]).then((datas) {
+    return Future.wait([HttpUtils.instance.getFuture("article/list", page: page)]).then((datas) {
       List<dynamic> list = datas[0].data['datas'];
       if (page == 0 && list.isEmpty) {
         setState(() => showWidget = 1);
       } else {
-        setState(() {
-          dataList.addAll(list);
-        });
+        setState(() => dataList.addAll(list));
       }
     }).catchError((onError) {
       if (page == 0) {
@@ -43,30 +43,21 @@ class HotProjectPageState extends State<HotProjectPage> {
   }
 
   _buildList(dynamic data, int index) {
+    String author = data['author'];
+    if (StringUtils.isEmpty(author)) {
+      author = "分享人：${data['shareUser']}";
+    } else {
+      author = "作者：${author}";
+    }
+    String chapterName = data['superChapterName'] + "/" + data['chapterName'];
     return Slidable.builder(
       child: ListTile(
-        leading: Image.network(
-          data['envelopePic'],
-          width: 40,
-          fit: BoxFit.scaleDown,
-        ),
-        contentPadding: EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
-        title: Text(data['title']),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              data['desc'],
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              "作者：${data['author']}   时间：" + data['niceDate'],
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
+          onTap: () {
+            Routes.startWebView(context, {'url': data['link'], 'title': data['title']});
+          },
+          contentPadding: EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
+          title: Text(data['title']),
+          subtitle: Text(author + "   分类：" + chapterName + "\n时间：" + data['niceDate'], style: TextStyle(color: Colors.grey))),
       actionPane: SlidableScrollActionPane(),
       secondaryActionDelegate: HotDelegate(),
     );
