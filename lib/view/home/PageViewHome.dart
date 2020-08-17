@@ -5,8 +5,8 @@ import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
 import 'package:wan_flutter_app/view/home/HomeSwiper.dart';
-import 'package:wan_flutter_app/view/home/HotBlog.dart';
-import 'package:wan_flutter_app/view/home/HotProject.dart';
+import 'file:///D:/ITCode/Flutter/wan_flutter_app/lib/view/home/hot/HotBlog.dart';
+import 'file:///D:/ITCode/Flutter/wan_flutter_app/lib/view/home/hot/HotProject.dart';
 import '../../main.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart' as extended;
 
@@ -22,8 +22,6 @@ class PageViewHome extends StatefulWidget {
 final List tabs = ["热门博文", "热门项目"];
 
 class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderStateMixin {
-  int showWidget = 0;
-
   TabController _tabController;
   ScrollController _scrollController;
 
@@ -67,8 +65,6 @@ class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderSta
         ));
   }
 
-
-
   Widget _buildTabBars() {
     return SliverPersistentHeader(
         pinned: true,
@@ -85,10 +81,14 @@ class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderSta
                 ))));
   }
 
-  Widget _buildTabBarView() => TabBarView(controller: _tabController, children: <Widget>[
-        extended.NestedScrollViewInnerScrollPositionKeyWidget(Key('HomeTab0'), HotBlogPage()),
-        extended.NestedScrollViewInnerScrollPositionKeyWidget(Key('HomeTab1'), HotProjectPage()),
-      ]);
+  Widget _buildTabBarView() => TabBarView(
+        controller: _tabController,
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          extended.NestedScrollViewInnerScrollPositionKeyWidget(Key('HomeTab0'), HotBlogPage()),
+          extended.NestedScrollViewInnerScrollPositionKeyWidget(Key('HomeTab1'), HotProjectPage()),
+        ],
+      );
 }
 
 class _SliverDelegate extends SliverPersistentHeaderDelegate {

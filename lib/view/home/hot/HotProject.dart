@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
+import 'package:wan_flutter_app/view/home/hot/HotDelegate.dart';
 import 'package:wan_flutter_app/widget/NestedRefresh.dart';
 
 /// @author DeMon
@@ -41,8 +43,32 @@ class HotProjectPageState extends State<HotProjectPage> {
   }
 
   _buildList(dynamic data, int index) {
-    return ListTile(
-      title: Text('$index'),
+    return Slidable.builder(
+      child: ListTile(
+        leading: Image.network(
+          data['envelopePic'],
+          width: 40,
+          fit: BoxFit.scaleDown,
+        ),
+        contentPadding: EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
+        title: Text(data['title']),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              data['desc'],
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              "作者：${data['author']}   时间：" + data['niceDate'],
+              style: TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
+      ),
+      actionPane: SlidableScrollActionPane(),
+      secondaryActionDelegate: HotDelegate(),
     );
   }
 
@@ -56,12 +82,13 @@ class HotProjectPageState extends State<HotProjectPage> {
   Widget build(BuildContext context) {
     return NestedRefresh(
       firstRefresh: firstRefresh,
-      child: ListView.builder(
+      child: ListView.separated(
         itemBuilder: (context, index) => _buildList(dataList[index], index),
         itemCount: dataList.length,
+        separatorBuilder: (context, index) => Padding(padding: EdgeInsets.only(left: 16), child: Divider(height: 1, color: Colors.grey)),
       ),
       onRefresh: () => mockNetworkData(0),
-      onLoad: () => mockNetworkData(page++),
+      onLoad: () => mockNetworkData(++page),
       showWidget: showWidget,
     );
   }

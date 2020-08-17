@@ -12,11 +12,19 @@ class HomeSwiper extends StatefulWidget {
   createState() => new HomeSwiperState();
 }
 
-class HomeSwiperState extends State<HomeSwiper> with AutomaticKeepAliveClientMixin {
+class HomeSwiperState extends State<HomeSwiper> {
+  var _futureBuilderFuture;
+
+  @override
+  void initState() {
+    _futureBuilderFuture = HttpUtils.instance.getFuture("banner");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<RepResult>(
-      future: HttpUtils.instance.getFuture("banner"),
+      future: _futureBuilderFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           List bannerList = snapshot.data.data;
@@ -29,7 +37,8 @@ class HomeSwiperState extends State<HomeSwiper> with AutomaticKeepAliveClientMix
               },
               itemCount: bannerList.length,
               autoplay: bannerList.length > 1,
-              autoplayDelay: 5000,
+              autoplayDelay: 10000,
+              duration: 1000,
               pagination: SwiperPagination(),
             );
           }
@@ -39,7 +48,4 @@ class HomeSwiperState extends State<HomeSwiper> with AutomaticKeepAliveClientMix
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

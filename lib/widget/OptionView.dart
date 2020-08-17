@@ -13,12 +13,9 @@ class OptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-        padding: EdgeInsets.all(0),
-        //清除内边距
-        onPressed: onPressed,
-        disabledColor: background ?? Colors.white,
-        color: background ?? Colors.white,
-        child: child);
+    return Material(
+      color: background ?? Colors.white,
+      child: InkWell(onTap: onPressed, child: child),
+    );
   }
 }

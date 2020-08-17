@@ -16,8 +16,7 @@ class NestedRefresh extends StatefulWidget {
   final Widget child;
   final bool firstRefresh;
 
-  //0 不显示 1 空视图 2.错误视图
-  final int showWidget;
+  final int showWidget;  //0 不显示 1 空视图 2.错误视图
 
   NestedRefresh({this.child, this.onRefresh, this.onLoad, this.showWidget, this.firstRefresh});
 
