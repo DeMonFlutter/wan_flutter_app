@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
-
-import 'PageViewCollect.dart';
-import 'PageViewHome.dart';
+import 'package:wan_flutter_app/view/home/PageViewHome.dart';
+import 'package:wan_flutter_app/view/project/PageViewProject.dart';
+import 'package:wan_flutter_app/view/public/PageViewPublic.dart';
+import 'package:wan_flutter_app/view/tree/PageViewTree.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
-class HomePageView extends StatefulWidget {
-  HomePageView({this.controller});
+class MainPageView extends StatefulWidget {
+  MainPageView({this.controller});
 
   final PageController controller;
 
   @override
-  createState() => new HomePageViewState();
+  createState() => new MainPageViewState();
 }
 
-class HomePageViewState extends State<HomePageView> {
+class MainPageViewState extends State<MainPageView> {
   var _pages;
 
   @override
   void initState() {
-    _pages = <Widget>[
-      PageViewHome(),
-      PageViewCollect()
-    ];
+    _pages = <Widget>[PageViewHome(), PageViewTree(), PageViewProject(), PageViewPublic()];
     super.initState();
   }
 

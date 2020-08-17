@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/event/DrawerEvent.dart';
-import 'package:wan_flutter_app/view/home/HomeBottomBar.dart';
-import 'package:wan_flutter_app/view/home/HomeDrawer.dart';
-import 'package:wan_flutter_app/view/home/HomePageView.dart';
+import 'package:wan_flutter_app/view/main/MainBottomBar.dart';
+import 'package:wan_flutter_app/view/main/MainDrawer.dart';
+import 'package:wan_flutter_app/view/main/MainPageView.dart';
 
 import '../../main.dart';
 
@@ -10,14 +10,12 @@ import '../../main.dart';
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
-class HomePage extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
-  createState() => new HomePageState();
+  createState() => new MainPageState();
 }
 
-final iconMap = {"主页": Icons.home, "收藏": Icons.favorite};
-
-class HomePageState extends State<HomePage> {
+class MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int pos = 0;
   PageController _controller;
@@ -35,9 +33,9 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: HomeDrawerView(),
-      body: HomePageView(controller: _controller),
-      bottomNavigationBar: HomeBottomBar(
+      drawer: MainDrawerView(),
+      body: MainPageView(controller: _controller),
+      bottomNavigationBar: MainBottomBar(
         currentIndex: pos,
         callback: (i) {
           pos = i;

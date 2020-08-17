@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/Routes.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/UserModel.dart';
-import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/widget/CenterScaffold.dart';
 import 'package:wan_flutter_app/widget/EasyTile.dart';

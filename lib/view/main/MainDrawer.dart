@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/model/UserModel.dart';
-import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/widget/GradientView.dart';
 
@@ -14,12 +12,12 @@ import '../../Routes.dart';
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
-class HomeDrawerView extends StatefulWidget {
+class MainDrawerView extends StatefulWidget {
   @override
-  createState() => new HomeDrawerViewState();
+  createState() => new MainDrawerViewState();
 }
 
-class HomeDrawerViewState extends State<HomeDrawerView> {
+class MainDrawerViewState extends State<MainDrawerView> {
   @override
   void initState() {
     super.initState();

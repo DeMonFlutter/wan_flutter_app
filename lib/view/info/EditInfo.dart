@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/model/User.dart';
-import 'package:wan_flutter_app/model/UserModel.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/widget/CenterScaffold.dart';
 import 'package:wan_flutter_app/widget/EasyEditForm.dart';

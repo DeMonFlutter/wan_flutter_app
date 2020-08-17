@@ -4,8 +4,9 @@ import 'package:wan_flutter_app/Routes.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
-import 'file:///D:/ITCode/Flutter/wan_flutter_app/lib/view/home/HotDelegate.dart';
 import 'package:wan_flutter_app/widget/NestedRefresh.dart';
+
+import 'HotDelegate.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.

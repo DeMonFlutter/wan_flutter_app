@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
-import '../../Routes.dart';
-import 'file:///D:/ITCode/Flutter/wan_flutter_app/lib/view/home/HotDelegate.dart';
 import 'package:wan_flutter_app/widget/NestedRefresh.dart';
+
+import '../../Routes.dart';
+import 'HotDelegate.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.

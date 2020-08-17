@@ -7,19 +7,24 @@ import 'package:flutter/material.dart';
 ///
 typedef Callback = void Function(int result);
 
-class HomeBottomBar extends StatefulWidget {
-  HomeBottomBar({this.currentIndex, this.callback});
+class MainBottomBar extends StatefulWidget {
+  MainBottomBar({this.currentIndex, this.callback});
 
   final Callback callback;
   final int currentIndex;
 
   @override
-  createState() => new HomeBottomBarState();
+  createState() => new MainBottomBarState();
 }
 
-final iconMap = {"主页": Icons.home, "收藏": Icons.favorite};
+final iconMap = {
+  "主页": Icons.home,
+  "体系": Icons.share,
+  "项目": Icons.important_devices,
+  "公众号": Icons.forum,
+};
 
-class HomeBottomBarState extends State<HomeBottomBar> {
+class MainBottomBarState extends State<MainBottomBar> {
   int _curPos = 0;
 
   List<String> get info => iconMap.keys.toList();
@@ -28,7 +33,7 @@ class HomeBottomBarState extends State<HomeBottomBar> {
     return info.asMap().keys.map((i) {
       bool active = widget.currentIndex == i;
       return Padding(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.only(top: 4, bottom: 5, right: i == 1 ? 40 : 0, left: i == 2 ? 40 : 0),
         child: GestureDetector(
           onTap: () {
             if (_curPos != i) {

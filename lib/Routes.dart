@@ -5,10 +5,10 @@ import 'package:wan_flutter_app/view/SettingTheme.dart';
 import 'package:wan_flutter_app/view/WebView.dart';
 import 'package:wan_flutter_app/view/info/EditInfo.dart';
 import 'package:wan_flutter_app/view/info/UserInfo.dart';
-import 'package:wan_flutter_app/view/home/Home.dart';
 import 'package:wan_flutter_app/view/Login.dart';
 import 'package:wan_flutter_app/view/Register.dart';
 import 'package:wan_flutter_app/view/Splash.dart';
+import 'package:wan_flutter_app/view/main/Main.dart';
 import 'package:wan_flutter_app/widget/AnimationRoute.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -28,7 +28,7 @@ class Routes {
 
   static final routes = {
     "/": (context) => SplashPage(),
-    HOME: (context) => HomePage(),
+    HOME: (context) => MainPage(),
     LOGIN: (context) => LoginPage(),
     REGISTER: (context) => RegisterPage(),
     ROUTE: (context) => SettingRoutePage(),
