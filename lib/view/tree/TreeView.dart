@@ -1,15 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wan_flutter_app/event/DrawerEvent.dart';
 import 'package:wan_flutter_app/model/TreeModel.dart';
+import 'package:wan_flutter_app/utils/DialogUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CollectDelegate.dart';
 import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
+import 'package:wan_flutter_app/widget/OptionView.dart';
 
 import '../../Routes.dart';
 import '../../main.dart';
@@ -119,9 +119,21 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(right: 20),
-            child: Text(
-              treeModel.name,
-              style: TextStyle(fontSize: 16),
+            child: OptionView(
+              isTransparent: true,
+              child: Text(
+                treeModel.name,
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+              onPressed: () {
+                DialogUtils.showListPick(context, dataList, (data) {
+                  setState(() {
+                    treeModel = TreeModel.fromJson(data);
+                  });
+                  cid = treeModel.children[0].id;
+                  articleListData(cid, 0);
+                });
+              },
             ),
           )
         ],
@@ -147,29 +159,22 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
         ),
       ),
       body: FirstRefreshLayout(
-        showWidget: showWidget,
-        controller: _controller,
-        onRefresh: () async {
-          if (firstError) {
-            mockNetworkData();
-          } else {
-            articleListData(cid, 0);
-          }
-        },
-        onLoad: () => articleListData(cid, ++page),
-        firstRefresh: firstRefresh,
-        child: ListView.separated(
-          itemBuilder: (context, index) => _buildList(articleList[index], index),
-          itemCount: articleList.length,
-          separatorBuilder: (context, index) => Padding(padding: EdgeInsets.only(left: 16), child: Divider(height: 1, color: Colors.grey)),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        mini: true,
-        heroTag: "TreeFab",
-        child: Icon(Icons.menu),
-        onPressed: () {},
-      ),
+          showWidget: showWidget,
+          controller: _controller,
+          onRefresh: () async {
+            if (firstError) {
+              mockNetworkData();
+            } else {
+              articleListData(cid, 0);
+            }
+          },
+          onLoad: () => articleListData(cid, ++page),
+          firstRefresh: firstRefresh,
+          child: ListView.separated(
+            itemBuilder: (context, index) => _buildList(articleList[index], index),
+            itemCount: articleList.length,
+            separatorBuilder: (context, index) => Padding(padding: EdgeInsets.only(left: 16), child: Divider(height: 1, color: Colors.grey)),
+          )),
     );
   }
 }

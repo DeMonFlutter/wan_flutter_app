@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
+import 'package:wan_flutter_app/widget/ListPickView.dart';
 
 import 'CallBack.dart';
 
@@ -11,7 +12,6 @@ import 'CallBack.dart';
 /// Desc:
 ///
 class DialogUtils {
-
   /// http加载框 1.拦截返回框 2.空白区域点击不消失
   static showLoadingDialog(BuildContext context) {
     showDialog(
@@ -75,6 +75,17 @@ class DialogUtils {
                     },
                   ),
                 ]),
+          );
+        });
+  }
+
+  static showListPick(BuildContext context, List<dynamic> dataList, TCallback callback) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return ListPickView(
+            dataList,
+            callback: callback,
           );
         });
   }
