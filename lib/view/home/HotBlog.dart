@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wan_flutter_app/Routes.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
-import 'package:wan_flutter_app/utils/http/RepResult.dart';
-import 'package:wan_flutter_app/widget/NestedRefresh.dart';
+import 'package:wan_flutter_app/widget/CollectDelegate.dart';
+import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
 
-import 'HotDelegate.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
@@ -18,24 +18,26 @@ class HotBlogPage extends StatefulWidget {
 }
 
 class HotBlogPageState extends State<HotBlogPage> {
+  EasyRefreshController _controller = EasyRefreshController();
   bool firstRefresh = true;
   int page = 0;
   int showWidget = 0;
 
   List<dynamic> dataList = List();
 
-  Future<List<RepResult>> mockNetworkData(int page) async {
+  mockNetworkData(int page) async {
     this.page = page;
     if (page == 0) {
       dataList.clear();
     }
-    return Future.wait([HttpUtils.instance.getFuture("article/list", page: page)]).then((datas) {
-      List<dynamic> list = datas[0].data['datas'];
+    HttpUtils.instance.getFuture("article/list", page: page).then((data) {
+      List<dynamic> list = data.pagingData.datas;
       if (page == 0 && list.isEmpty) {
         setState(() => showWidget = 1);
       } else {
         setState(() => dataList.addAll(list));
       }
+      _controller.finishLoad(noMore: data.pagingData.over);
     }).catchError((onError) {
       if (page == 0) {
         setState(() => showWidget = 2);
@@ -60,7 +62,7 @@ class HotBlogPageState extends State<HotBlogPage> {
           title: Text(data['title']),
           subtitle: Text(author + "   分类：" + chapterName + "\n时间：" + data['niceDate'], style: TextStyle(color: Colors.grey))),
       actionPane: SlidableScrollActionPane(),
-      secondaryActionDelegate: HotDelegate(),
+      secondaryActionDelegate: CollectDelegate(),
     );
   }
 
@@ -72,7 +74,8 @@ class HotBlogPageState extends State<HotBlogPage> {
 
   @override
   Widget build(BuildContext context) {
-    return NestedRefresh(
+    return FirstRefreshLayout(
+      controller: _controller,
       firstRefresh: firstRefresh,
       child: ListView.separated(
         itemBuilder: (context, index) => _buildList(dataList[index], index),

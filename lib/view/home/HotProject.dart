@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
-import 'package:wan_flutter_app/utils/http/RepResult.dart';
-import 'package:wan_flutter_app/widget/NestedRefresh.dart';
-
+import 'package:wan_flutter_app/widget/CollectDelegate.dart';
+import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
 import '../../Routes.dart';
-import 'HotDelegate.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
@@ -17,19 +16,20 @@ class HotProjectPage extends StatefulWidget {
 }
 
 class HotProjectPageState extends State<HotProjectPage> {
+  EasyRefreshController _controller = EasyRefreshController();
   bool firstRefresh = true;
   int page = 0;
   int showWidget = 0;
 
   List<dynamic> dataList = List();
 
-  Future<List<RepResult>> mockNetworkData(int page) async {
+  mockNetworkData(int page) async {
     this.page = page;
     if (page == 0) {
       dataList.clear();
     }
-    return Future.wait([HttpUtils.instance.getFuture("article/listproject", page: page)]).then((datas) {
-      List<dynamic> list = datas[0].data['datas'];
+     HttpUtils.instance.getFuture("article/listproject", page: page).then((data) {
+      List<dynamic> list = data.pagingData.datas;
       if (page == 0 && list.isEmpty) {
         setState(() => showWidget = 1);
       } else {
@@ -37,6 +37,7 @@ class HotProjectPageState extends State<HotProjectPage> {
           dataList.addAll(list);
         });
       }
+      _controller.finishLoad(noMore: data.pagingData.over);
     }).catchError((onError) {
       if (page == 0) {
         setState(() => showWidget = 2);
@@ -73,7 +74,7 @@ class HotProjectPageState extends State<HotProjectPage> {
         ),
       ),
       actionPane: SlidableScrollActionPane(),
-      secondaryActionDelegate: HotDelegate(),
+      secondaryActionDelegate: CollectDelegate(),
     );
   }
 
@@ -85,7 +86,8 @@ class HotProjectPageState extends State<HotProjectPage> {
 
   @override
   Widget build(BuildContext context) {
-    return NestedRefresh(
+    return FirstRefreshLayout(
+      controller: _controller,
       firstRefresh: firstRefresh,
       child: ListView.separated(
         itemBuilder: (context, index) => _buildList(dataList[index], index),

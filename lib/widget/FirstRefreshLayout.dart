@@ -7,29 +7,30 @@ import 'package:wan_flutter_app/widget/GradientButton.dart';
 /// @author DeMon
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
-/// Desc: easyrefresh配合NestedScrollView使用第一次刷新会自动谈到顶部
+/// Desc: easyrefresh配合NestedScrollView使用第一次刷新会自动弹到顶部
 /// 可参考:https://github.com/xuelongqy/flutter_easyrefresh/issues/275
 /// 解决方案是第一次刷新不使用自动刷新，详情见代码
-class NestedRefresh extends StatefulWidget {
+class FirstRefreshLayout extends StatefulWidget {
   final OnRefreshCallback onRefresh;
   final OnLoadCallback onLoad;
   final Widget child;
   final bool firstRefresh;
+  final EasyRefreshController controller;
+  final int showWidget; //0 不显示 1 空视图 2.错误视图
 
-  final int showWidget;  //0 不显示 1 空视图 2.错误视图
-
-  NestedRefresh({this.child, this.onRefresh, this.onLoad, this.showWidget, this.firstRefresh});
+  FirstRefreshLayout({this.controller, this.child, this.onRefresh, this.onLoad, this.showWidget, this.firstRefresh});
 
   @override
-  createState() => new NestedRefreshState();
+  createState() => new FirstRefreshLayoutState();
 }
 
-class NestedRefreshState extends State<NestedRefresh> with AutomaticKeepAliveClientMixin {
-  EasyRefreshController _controller = EasyRefreshController();
+class FirstRefreshLayoutState extends State<FirstRefreshLayout> with AutomaticKeepAliveClientMixin {
+  EasyRefreshController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = widget.controller ?? EasyRefreshController();
   }
 
   Widget emptyWidget() {
@@ -74,6 +75,7 @@ class NestedRefreshState extends State<NestedRefresh> with AutomaticKeepAliveCli
             footer: BallPulseFooter(color: color),
             emptyWidget: emptyWidget(),
             child: widget.child,
+            firstRefresh: false,
             onRefresh: widget.onRefresh,
             onLoad: widget.onLoad,
           );

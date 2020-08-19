@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wan_flutter_app/view/home/PageViewHome.dart';
-import 'package:wan_flutter_app/view/project/PageViewProject.dart';
-import 'package:wan_flutter_app/view/public/PageViewPublic.dart';
-import 'package:wan_flutter_app/view/tree/PageViewTree.dart';
+import 'package:wan_flutter_app/view/home/HomeView.dart';
+import 'package:wan_flutter_app/view/project/ProjectView.dart';
+import 'package:wan_flutter_app/view/public/PublicView.dart';
+import 'package:wan_flutter_app/view/tree/TreeView.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
@@ -22,7 +22,7 @@ class MainPageViewState extends State<MainPageView> {
 
   @override
   void initState() {
-    _pages = <Widget>[PageViewHome(), PageViewTree(), PageViewProject(), PageViewPublic()];
+    _pages = <Widget>[TreeView(), HomeView(), ProjectView(), PublicView()];
     super.initState();
   }
 

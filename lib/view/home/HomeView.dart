@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wan_flutter_app/event/DrawerEvent.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
-import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
-import 'package:wan_flutter_app/utils/http/RepResult.dart';
 import 'package:wan_flutter_app/view/home/HomeSwiper.dart';
 import '../../main.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart' as extended;
@@ -15,14 +12,14 @@ import 'HotProject.dart';
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
-class PageViewHome extends StatefulWidget {
+class HomeView extends StatefulWidget {
   @override
-  createState() => new PageViewHomeState();
+  createState() => new HomeViewState();
 }
 
 final List tabs = ["热门博文", "热门项目"];
 
-class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderStateMixin {
+class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
   TabController _tabController;
   ScrollController _scrollController;
 
@@ -78,6 +75,7 @@ class PageViewHomeState extends State<PageViewHome> with SingleTickerProviderSta
                 child: TabBar(
                   controller: _tabController,
                   indicatorSize: TabBarIndicatorSize.label,
+                  indicatorColor: Colors.white,
                   tabs: tabs.map((e) => Tab(text: e)).toList(),
                 ))));
   }

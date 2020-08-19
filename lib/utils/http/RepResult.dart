@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'PagingData.dart';
+
 /// @author DeMon
 /// Created on 2020/7/27.
 /// E-mail 757454343@qq.com
@@ -6,23 +10,17 @@ class RepResult {
   var data;
   int errorCode;
   String errorMsg;
+  PagingData pagingData; //分页数据
 
   RepResult(this.data, this.errorCode, this.errorMsg);
 
-  RepResult.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? json['data'] : null;
-    errorCode = json['errorCode'];
-    errorMsg = json['errorMsg'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
+  RepResult.fromJson(Map<String, dynamic> map) {
+    data = map['data'] != null ? map['data'] : null;
+    errorCode = map['errorCode'];
+    errorMsg = map['errorMsg'];
+    if (data != null && !(data is List<dynamic>)) {
+      pagingData = data['datas'] != null ? PagingData.fromJson(data) : null;
     }
-    data['errorCode'] = this.errorCode;
-    data['errorMsg'] = this.errorMsg;
-    return data;
   }
 
   @override

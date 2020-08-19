@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:wan_flutter_app/utils/CallBack.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
 ///
-typedef Callback = void Function(int result);
-
 class MainBottomBar extends StatefulWidget {
   MainBottomBar({this.currentIndex, this.callback});
 
-  final Callback callback;
+  final TCallback callback;
   final int currentIndex;
 
   @override

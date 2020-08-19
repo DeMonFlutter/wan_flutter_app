@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
 /// Desc:
-class PageViewProject extends StatefulWidget {
+class PublicView extends StatefulWidget {
   @override
-  createState() => new PageViewProjectState();
+  createState() => new PublicViewState();
 }
 
-class PageViewProjectState extends State<PageViewProject> {
+class PublicViewState extends State<PublicView> {
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: Text("ProjectView"),
+      child: Text("PublicView"),
     );
   }
 }

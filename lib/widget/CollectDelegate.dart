@@ -5,7 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 /// Created on 2020/8/17.
 /// E-mail 757454343@qq.com
 /// Desc: 
-class HotDelegate extends SlideActionDelegate {
+class CollectDelegate extends SlideActionDelegate {
   @override
   int get actionCount => 1;
 
