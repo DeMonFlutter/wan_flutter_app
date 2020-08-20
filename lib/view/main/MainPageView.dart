@@ -22,7 +22,7 @@ class MainPageViewState extends State<MainPageView> {
 
   @override
   void initState() {
-    _pages = <Widget>[TreeView(), HomeView(), ProjectView(), PublicView()];
+    _pages = <Widget>[HomeView(), TreeView(), ProjectView(), PublicView()];
     super.initState();
   }
 

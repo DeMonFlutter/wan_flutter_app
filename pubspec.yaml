@@ -27,6 +27,8 @@ dependencies:
   webview_flutter: ^0.3.22+1
   # provider
   provider: ^4.0.5+1
+  # 文件
+  path_provider: ^1.6.11
   # shared_preferences
   shared_preferences: ^0.5.7+3
   # Toast
@@ -35,6 +37,8 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   # dio
   dio: ^3.0.9
+  dio_cookie_manager: ^1.0.0
+  cookie_jar: ^1.0.0
   # 网络状态
   connectivity: ^0.4.8+6
   # event_bus

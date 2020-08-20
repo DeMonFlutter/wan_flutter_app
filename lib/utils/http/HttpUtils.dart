@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wan_flutter_app/utils/DialogUtils.dart';
+import 'package:wan_flutter_app/utils/FileUtils.dart';
 import '../CallBack.dart';
 import 'RepResult.dart';
 
@@ -38,9 +42,20 @@ class HttpUtils {
         receiveTimeout: _kConnectTimeout,
         sendTimeout: _kSendTimeout,
       ));
-
       _dio.interceptors.add(LogInterceptor());
+      //cookies持久化
+      setCookie();
     }
+  }
+
+  ///设置cookie
+  void setCookie() async {
+    // 获取文档目录的路径
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String dir = appDocDir.path + "/.cookies/";
+    print('cookie路径地址：' + dir);
+    var cookieJar = PersistCookieJar(dir: dir);
+    _dio.interceptors.add(CookieManager(cookieJar));
   }
 
   static HttpUtils getInstance() {
