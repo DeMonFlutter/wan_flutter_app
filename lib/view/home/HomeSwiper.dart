@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wan_flutter_app/Routes.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/utils/http/RepResult.dart';
 
@@ -40,6 +41,10 @@ class HomeSwiperState extends State<HomeSwiper> {
               autoplayDelay: 10000,
               duration: 1000,
               pagination: SwiperPagination(),
+              onTap: (index) {
+                var data = bannerList[index];
+                Routes.startWebView(context, {'url': data['url'], 'title': data['title']});
+              },
             );
           }
         } else {
