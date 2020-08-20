@@ -120,6 +120,9 @@ class HttpUtils {
     }).then((onValue) {
       callback(onValue);
     }).catchError((e) {
+      if (isShowDialog) {
+        Navigator.of(context).pop();
+      }
       print('$url--$e');
       Fluttertoast.showToast(msg: '请求失败：$e');
     });
@@ -147,7 +150,7 @@ class HttpUtils {
   }
 
   /// wanAndroid Api post请求封装
-  post(BuildContext context, String url, HttpCallback callback, {bool isShowDialog = true, int page = -1, bool isJson = false, Map<String, dynamic> data}) {
+  post(BuildContext context, String url, HttpCallback callback, {bool isShowDialog = true, int page = -1, bool isJson = true, Map<String, dynamic> data}) {
     Future.sync(() async {
       if (isShowDialog) {
         DialogUtils.showLoadingDialog(context);
@@ -176,6 +179,9 @@ class HttpUtils {
     }).then((onValue) {
       callback(onValue);
     }).catchError((e) {
+      if (isShowDialog) {
+        Navigator.of(context).pop();
+      }
       print('$url--$e');
       Fluttertoast.showToast(msg: '请求失败：$e');
     });

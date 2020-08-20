@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     eventBus = EventBus();
-    HttpUtils.instance;
+    HttpUtils.instance; //提前初始化
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ColorModel()),

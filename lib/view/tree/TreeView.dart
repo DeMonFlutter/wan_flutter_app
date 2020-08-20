@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wan_flutter_app/event/DrawerEvent.dart';
 import 'package:wan_flutter_app/model/TreeModel.dart';
 import 'package:wan_flutter_app/utils/DialogUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
-import 'package:wan_flutter_app/widget/CollectDelegate.dart';
+import 'package:wan_flutter_app/widget/CollectListView.dart';
 import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
 import 'package:wan_flutter_app/widget/OptionView.dart';
 
@@ -86,16 +85,15 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
     } else {
       author = "作者：${author}";
     }
-    return Slidable.builder(
-      child: ListTile(
+    return CollectListView(
+      data,
+      ListTile(
           onTap: () {
             Routes.startWebView(context, {'url': data['link'], 'title': data['title']});
           },
           contentPadding: EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
           title: Text(data['title']),
           subtitle: Text("$author   时间：" + data['niceDate'], style: TextStyle(color: Colors.grey))),
-      actionPane: SlidableScrollActionPane(),
-      secondaryActionDelegate: CollectDelegate(),
     );
   }
 
