@@ -4,8 +4,8 @@ import 'dart:convert';
 /// Created on 2020/8/18.
 /// E-mail 757454343@qq.com
 /// Desc:
-class TreeModel {
-  List<TreeModel> children;
+class ClassModel {
+  List<ClassModel> children;
   int courseId;
   int id;
   String name;
@@ -14,13 +14,13 @@ class TreeModel {
   bool userControlSetTop;
   int visible;
 
-  TreeModel({this.children, this.courseId, this.id, this.name, this.order, this.parentChapterId, this.userControlSetTop, this.visible});
+  ClassModel({this.children, this.courseId, this.id, this.name, this.order, this.parentChapterId, this.userControlSetTop, this.visible});
 
-  TreeModel.fromJson(Map<String, dynamic> map) {
+  ClassModel.fromJson(Map<String, dynamic> map) {
     if (map['children'] != null) {
-      children = new List<TreeModel>();
+      children = new List<ClassModel>();
       map['children'].forEach((v) {
-        children.add(new TreeModel.fromJson(v));
+        children.add(new ClassModel.fromJson(v));
       });
     }
     courseId = map['courseId'];
@@ -49,6 +49,6 @@ class TreeModel {
 
   @override
   String toString() {
-    return 'TreeModel{id: $id, name: $name, children: $children,}';
+    return 'ClassModel{id: $id, name: $name, children: $children,}';
   }
 }

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:wan_flutter_app/event/DrawerEvent.dart';
 import 'package:wan_flutter_app/model/User.dart';
 
+import '../main.dart';
 import 'StringUtils.dart';
 
 /// @author DeMon
@@ -16,6 +18,14 @@ class ViewUtils {
       return CircleAvatar(radius: radius, backgroundImage: FileImage(File(User.getInstance().icon)));
     }
     return CircleAvatar(radius: radius, backgroundImage: AssetImage('res/images/D.png'));
+  }
+
+  static Widget buildAvatarLeading() {
+    return IconButton(
+        icon: buildAvatar(),
+        onPressed: () {
+          eventBus.fire(DrawerEvent());
+        });
   }
 
   static Widget buildLoading(BuildContext context) {

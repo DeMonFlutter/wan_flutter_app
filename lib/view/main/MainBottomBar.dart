@@ -17,7 +17,7 @@ class MainBottomBar extends StatefulWidget {
 }
 
 final iconMap = {
-  "主页": Icons.home,
+  "首页": Icons.home,
   "体系": Icons.share,
   "项目": Icons.important_devices,
   "公众号": Icons.forum,

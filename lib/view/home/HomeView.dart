@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wan_flutter_app/event/DrawerEvent.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/view/home/HomeSwiper.dart';
-import '../../main.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart' as extended;
 
 import 'HotBlog.dart';
@@ -50,12 +48,8 @@ class HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin 
   Widget _buildSliverAppBar() {
     return SliverAppBar(
         expandedHeight: 180.0,
-        leading: IconButton(
-            icon: ViewUtils.buildAvatar(),
-            onPressed: () {
-              eventBus.fire(DrawerEvent());
-            }),
-        title: Text("主页", textAlign: TextAlign.center),
+        leading: ViewUtils.buildAvatarLeading(),
+        title: Text("首页", textAlign: TextAlign.center),
         pinned: true,
         flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.parallax, //视差效果

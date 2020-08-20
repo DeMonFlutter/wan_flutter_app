@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:wan_flutter_app/event/DrawerEvent.dart';
-import 'package:wan_flutter_app/model/TreeModel.dart';
+import 'package:wan_flutter_app/model/ClassModel.dart';
 import 'package:wan_flutter_app/utils/DialogUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
@@ -11,7 +10,6 @@ import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
 import 'package:wan_flutter_app/widget/OptionView.dart';
 
 import '../../Routes.dart';
-import '../../main.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.
@@ -28,7 +26,7 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
   int showWidget = 0;
   bool firstRefresh = true;
   bool firstError = false;
-  TreeModel treeModel = TreeModel(name: "", children: List());
+  ClassModel treeModel = ClassModel(name: "", children: List());
   List<dynamic> dataList = List();
   List<dynamic> articleList = List();
 
@@ -44,7 +42,7 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
         setState(() {
           showWidget = 0;
           dataList.addAll(list);
-          treeModel = TreeModel.fromJson(dataList[0]);
+          treeModel = ClassModel.fromJson(dataList[0]);
         });
         cid = treeModel.children[0].id;
         articleListData(cid, 0);
@@ -107,11 +105,7 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: ViewUtils.buildAvatar(),
-            onPressed: () {
-              eventBus.fire(DrawerEvent());
-            }),
+        leading: ViewUtils.buildAvatarLeading(),
         title: Text("体系", textAlign: TextAlign.center),
         actions: [
           Container(
@@ -126,7 +120,7 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
               onPressed: () {
                 DialogUtils.showListPick(context, dataList, (data) {
                   setState(() {
-                    treeModel = TreeModel.fromJson(data);
+                    treeModel = ClassModel.fromJson(data);
                   });
                   cid = treeModel.children[0].id;
                   articleListData(cid, 0);
