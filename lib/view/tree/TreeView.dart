@@ -70,7 +70,7 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
           articleList.addAll(list);
         });
       }
-      _controller.finishLoad(noMore: data.pagingData.over);
+        _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
       setState(() => showWidget = 2);
     });
@@ -81,7 +81,7 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
     if (StringUtils.isEmpty(author)) {
       author = "分享人：${data['shareUser']}";
     } else {
-      author = "作者：${author}";
+      author = "作者：$author";
     }
     return CollectListView(
       data,

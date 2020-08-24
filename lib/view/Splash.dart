@@ -4,6 +4,7 @@ import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/SystemUtils.dart';
+import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 
 import '../Routes.dart';
 
@@ -12,8 +13,6 @@ import '../Routes.dart';
 /// E-mail 757454343@qq.com
 /// Desc:
 
-var routeMode = -1; //路由模式
-var themeMode = 0;  //主题模式
 class SplashPage extends StatefulWidget {
   @override
   createState() => new SplashPageState();
@@ -35,13 +34,11 @@ class SplashPageState extends State<SplashPage> with SingleTickerProviderStateMi
           goto();
         }
       });
-    //提前初始化
+    //因为flutter的文件操作都是异步的的，所以需要提前初始化
     User.getInstance();
+    HttpUtils.instance;
     SPUtils.get(Const.ROUTE_MODE, 0, (i) {
       routeMode = i;
-    });
-    SPUtils.get(Const.THEME_MODE, 0, (i) {
-      themeMode = i;
     });
     super.initState();
   }

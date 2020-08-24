@@ -8,6 +8,8 @@ import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
 import 'package:wan_flutter_app/widget/OptionView.dart';
 
+import '../../Routes.dart';
+
 /// @author DeMon
 /// Created on 2020/4/23.
 /// E-mail 757454343@qq.com
@@ -67,7 +69,7 @@ class ProjectViewState extends State<ProjectView> {
           projectList.addAll(list);
         });
       }
-      _controller.finishLoad(noMore: data.pagingData.over);
+      _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
       setState(() => showWidget = 2);
     });
@@ -92,8 +94,18 @@ class ProjectViewState extends State<ProjectView> {
       child: OptionView(
         child: Card(
           margin: EdgeInsets.all(0),
+          child: Row(
+            children: [
+              Image.network(data['envelopePic'], width: 45, fit: BoxFit.scaleDown),
+              Expanded(
+                child: Text(data['desc'], maxLines: 5, overflow: TextOverflow.ellipsis),
+              )
+            ],
+          ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Routes.startWebView(context, {'url': data['link'], 'title': data['title']});
+        },
       ),
       footer: GridTileBar(
         subtitle: Text(

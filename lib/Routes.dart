@@ -16,6 +16,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 /// Created on 2020/7/24.
 /// E-mail 757454343@qq.com
 /// Desc:
+var routeMode = -1; //路由模式
 class Routes {
   static const HOME = "Home";
   static const LOGIN = "Login";

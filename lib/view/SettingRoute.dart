@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/style/DIcons.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
-import 'package:wan_flutter_app/view/Splash.dart';
 import 'package:wan_flutter_app/widget/CenterScaffold.dart';
+
+import '../Routes.dart';
 
 /// @author DeMon
 /// Created on 2020/4/23.

@@ -36,7 +36,7 @@ class HotProjectPageState extends State<HotProjectPage> {
           dataList.addAll(list);
         });
       }
-      _controller.finishLoad(noMore: data.pagingData.over);
+      _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
       if (page == 0) {
         setState(() => showWidget = 2);

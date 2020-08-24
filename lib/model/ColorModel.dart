@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
+import 'package:wan_flutter_app/view/Splash.dart';
 
 /// @author DeMon
 /// Created on 2020/5/6.
 /// E-mail 757454343@qq.com
 /// Desc:
+var themeMode = 0;  //主题模式
 class ColorModel extends ChangeNotifier {
   static Map<int, List<Color>> themeColors = {
     0: [Colors.blue, Colors.blue[700], Colors.blueAccent], //默认蓝
@@ -33,6 +35,7 @@ class ColorModel extends ChangeNotifier {
       themeColor = themeColors[i][0];
       themeColorDark = themeColors[i][1];
       accentColor = themeColors[i][2];
+      themeMode = i;
       notifyListeners();
     });
   }

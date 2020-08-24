@@ -1,7 +1,6 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 
 import 'Routes.dart';
 import 'model/ColorModel.dart';
@@ -16,7 +15,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     eventBus = EventBus();
-    HttpUtils.instance; //提前初始化
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ColorModel()),

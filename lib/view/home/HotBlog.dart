@@ -35,7 +35,7 @@ class HotBlogPageState extends State<HotBlogPage> {
       } else {
         setState(() => dataList.addAll(list));
       }
-      _controller.finishLoad(noMore: data.pagingData.over);
+      _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
       if (page == 0) {
         setState(() => showWidget = 2);
@@ -48,7 +48,7 @@ class HotBlogPageState extends State<HotBlogPage> {
     if (StringUtils.isEmpty(author)) {
       author = "分享人：${data['shareUser']}";
     } else {
-      author = "作者：${author}";
+      author = "作者：$author";
     }
     String chapterName = "${data['superChapterName']}/${data['chapterName']}";
     return CollectListView(

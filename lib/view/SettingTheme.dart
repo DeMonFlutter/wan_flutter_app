@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/ColorModel.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
-import 'package:wan_flutter_app/view/Splash.dart';
 import 'package:wan_flutter_app/widget/CenterScaffold.dart';
 
 /// @author DeMon
