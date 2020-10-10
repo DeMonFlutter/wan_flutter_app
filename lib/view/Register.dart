@@ -26,7 +26,7 @@ class RegisterPageState extends State<RegisterPage> {
     HttpUtils.instance.post(context, "user/register", (result) {
       Fluttertoast.showToast(msg: '注册成功！');
       Navigator.of(context).pop();
-    }, data: {"username": username, "password": password, "repassword": repassword});
+    }, data: {"username": username, "password": password, "repassword": repassword}, isJson: false);
   }
 
   @override

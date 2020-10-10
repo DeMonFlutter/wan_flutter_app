@@ -29,7 +29,7 @@ class LoginPageState extends State<LoginPage> {
       SPUtils.setData(Const.IS_LOGIN, true);
       User.getInstance().setUser(result.data);
       Routes.startPage(context, Routes.HOME, isReplace: true);
-    }, data: {"username": username, "password": password});
+    }, data: {"username": username, "password": password}, isJson: false);
   }
 
   @override

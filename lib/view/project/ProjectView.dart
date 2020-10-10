@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wan_flutter_app/model/ClassModel.dart';
 import 'package:wan_flutter_app/style/DColors.dart';
 import 'package:wan_flutter_app/utils/DialogUtils.dart';
@@ -81,7 +82,17 @@ class ProjectViewState extends State<ProjectView> {
     super.initState();
   }
 
+  doCollect(dynamic data) {
+    String url = data['collect'] ? 'lg/uncollect_originId/' : 'lg/collect/';
+    HttpUtils.instance.post(context, url + '${data['id']}', (result) {
+      setState(() {
+        data['collect'] = !data['collect'];
+      });
+    });
+  }
+
   Widget _buildList(dynamic data, int index) {
+    bool isCollect = data['collect'];
     return GridTile(
       header: GridTileBar(
         backgroundColor: Colors.blue,
@@ -89,7 +100,12 @@ class ProjectViewState extends State<ProjectView> {
           data['title'],
           maxLines: 2,
         ),
-        trailing: Icon(data['collect'] ? Icons.favorite : Icons.favorite_border),
+        trailing: IconButton(
+          icon: Icon(isCollect ? Icons.favorite : Icons.favorite_border, color: isCollect ? Colors.red : Colors.white),
+          onPressed: () {
+            doCollect(data);
+          },
+        ),
       ),
       child: OptionView(
         child: Card(
@@ -98,7 +114,7 @@ class ProjectViewState extends State<ProjectView> {
             children: [
               Image.network(data['envelopePic'], width: 45, fit: BoxFit.scaleDown),
               Expanded(
-                child: Text(data['desc'], maxLines: 5, overflow: TextOverflow.ellipsis),
+                child: Text(data['desc'], maxLines: 4, overflow: TextOverflow.ellipsis),
               )
             ],
           ),
