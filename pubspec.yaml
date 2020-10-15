@@ -46,7 +46,7 @@ dependencies:
   # banner轮播
   flutter_swiper: ^1.1.6
   # 下拉刷新，上滑加载更多
-  flutter_easyrefresh: ^2.1.5
+  flutter_easyrefresh: ^2.1.6
   # NestedScrollView扩展
   extended_nested_scroll_view: ^1.0.1
   # 列表左滑菜单

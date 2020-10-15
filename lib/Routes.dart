@@ -9,6 +9,7 @@ import 'package:wan_flutter_app/view/Login.dart';
 import 'package:wan_flutter_app/view/Register.dart';
 import 'package:wan_flutter_app/view/Splash.dart';
 import 'package:wan_flutter_app/view/main/Main.dart';
+import 'package:wan_flutter_app/view/public/PublicSet.dart';
 import 'package:wan_flutter_app/widget/AnimationRoute.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -17,6 +18,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 /// E-mail 757454343@qq.com
 /// Desc:
 var routeMode = -1; //路由模式
+
 class Routes {
   static const HOME = "Home";
   static const LOGIN = "Login";
@@ -26,6 +28,7 @@ class Routes {
   static const USER_INFO = "User_Info";
   static const EDIT_INFO = "Edit_Info";
   static const WEBVIEW = "WebView";
+  static const PUBLIC_SET = "Public_Set";
 
   static final routes = {
     "/": (context) => SplashPage(),
@@ -37,6 +40,7 @@ class Routes {
     USER_INFO: (context) => UserInfoPage(),
     EDIT_INFO: (context) => EditInfoPage(),
     WEBVIEW: (context) => WebViewPage(),
+    PUBLIC_SET: (context) => PublicSetPage(),
   };
 
   /// 封装过渡动画的路由跳转

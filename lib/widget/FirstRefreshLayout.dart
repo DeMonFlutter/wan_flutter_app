@@ -71,8 +71,8 @@ class FirstRefreshLayoutState extends State<FirstRefreshLayout> with AutomaticKe
             ))
         : EasyRefresh(
             controller: _controller,
-            header: BallPulseHeader(),
-            footer: BallPulseFooter(color: color),
+            header: MaterialHeader(),
+            footer: BezierBounceFooter(),
             emptyWidget: emptyWidget(),
             child: widget.child,
             firstRefresh: false,
