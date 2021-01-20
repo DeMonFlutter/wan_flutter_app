@@ -23,7 +23,7 @@ class FirstRefreshLayout extends StatefulWidget {
   createState() => new FirstRefreshLayoutState();
 }
 
-class FirstRefreshLayoutState extends State<FirstRefreshLayout>{
+class FirstRefreshLayoutState extends State<FirstRefreshLayout> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller;
 
   @override
@@ -60,6 +60,7 @@ class FirstRefreshLayoutState extends State<FirstRefreshLayout>{
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Color color = Theme.of(context).primaryColor;
     return widget.firstRefresh
         ? Container(
@@ -79,4 +80,7 @@ class FirstRefreshLayoutState extends State<FirstRefreshLayout>{
             onLoad: widget.onLoad,
           );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/PublicModel.dart';
+import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 
 /// @author DeMon
@@ -18,12 +23,18 @@ class PublicSetPageState extends State<PublicSetPage> {
 
   @override
   void initState() {
+    //初始默认的数据
     dataList.add(PublicModel(name: "鸿洋", id: 408));
     dataList.add(PublicModel(name: "郭霖", id: 409));
-    super.initState();
-    Future.delayed(Duration.zero, () {
+    SPUtils.get(Const.PUBLIC_LIST, json.encode(dataList), (result) {
+      dataList.clear();
+      List list = json.decode(result);
+      list.forEach((element) {
+        dataList.add(PublicModel(name: element["name"], id: element["id"]));
+      });
       this.initData();
     });
+    super.initState();
   }
 
   initData() {
@@ -59,10 +70,27 @@ class PublicSetPageState extends State<PublicSetPage> {
       title: Text(model.name, style: _biggerFont),
       trailing: Icon(alreadySaved ? Icons.favorite : Icons.favorite_border, color: alreadySaved ? Colors.red : null),
       onTap: () {
-        setState(() {
+        if (this.isContain(model)) {
+          if (dataList.length <= 1) {
+            Fluttertoast.showToast(msg: '最少需要选择一个公众号！');
+            return;
+          }
+          dataList.removeWhere((element) => element.id == model.id);
+        } else {
           dataList.add(model);
+        }
+        SPUtils.setData(Const.PUBLIC_LIST, json.encode(dataList)).then((bool) {
+          setState(() {});
         });
       },
     );
+  }
+
+  isContain(PublicModel model) {
+    var data;
+    try {
+      data = dataList.firstWhere((element) => model.id == element.id);
+    } catch (e) {}
+    return data != null;
   }
 }

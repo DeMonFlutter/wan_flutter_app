@@ -102,7 +102,7 @@ class HttpUtils {
         url += "/json";
       }
       var response = await _dio.get(url, queryParameters: param);
-      if (isShowDialog) {
+      if (isShowDialog && Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       }
       if (response.statusCode == HttpStatus.ok) {
@@ -119,9 +119,6 @@ class HttpUtils {
     }).then((onValue) {
       callback(onValue);
     }).catchError((e) {
-      if (isShowDialog) {
-        Navigator.of(context).pop();
-      }
       print('$url--$e');
       Fluttertoast.showToast(msg: '请求失败：$e');
     });
@@ -161,7 +158,7 @@ class HttpUtils {
         url += "/json";
       }
       var response = await _dio.post(url, data: new FormData.fromMap(data));
-      if (isShowDialog) {
+      if (isShowDialog && Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       }
       if (response.statusCode == HttpStatus.ok) {
@@ -178,9 +175,6 @@ class HttpUtils {
     }).then((onValue) {
       callback(onValue);
     }).catchError((e) {
-      if (isShowDialog) {
-        Navigator.of(context).pop();
-      }
       print('$url--$e');
       Fluttertoast.showToast(msg: '请求失败：$e');
     });

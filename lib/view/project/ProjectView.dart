@@ -91,10 +91,11 @@ class ProjectViewState extends State<ProjectView> {
   }
 
   Widget _buildList(dynamic data, int index) {
+    ThemeData theme = Theme.of(context);
     bool isCollect = data['collect'];
     return GridTile(
       header: GridTileBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: theme.primaryColor,
         subtitle: Text(
           data['title'],
           maxLines: 2,

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/PublicModel.dart';
 import 'package:wan_flutter_app/style/DColors.dart';
+import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CollectListView.dart';
@@ -30,10 +34,24 @@ class PublicViewState extends State<PublicView> {
 
   @override
   void initState() {
+    //初始默认的数据
     dataList.add(PublicModel(name: "鸿洋", id: 408));
     dataList.add(PublicModel(name: "郭霖", id: 409));
-    articleListData(1);
+    this.initData();
     super.initState();
+  }
+
+  initData() {
+    SPUtils.get(Const.PUBLIC_LIST, json.encode(dataList), (result) {
+      print(result);
+      dataList.clear();
+      List list = json.decode(result);
+      list.forEach((element) {
+        dataList.add(PublicModel(name: element["name"], id: element["id"]));
+      });
+      cid = dataList[0].id;
+      articleListData(1);
+    });
   }
 
   articleListData(int page) async {
@@ -67,7 +85,10 @@ class PublicViewState extends State<PublicView> {
           IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
-              Routes.startPage(context, Routes.PUBLIC_SET);
+              Routes.startPage(context, Routes.PUBLIC_SET).then((value) {
+                print(value);
+                this.initData();
+              });
             },
           )
         ],

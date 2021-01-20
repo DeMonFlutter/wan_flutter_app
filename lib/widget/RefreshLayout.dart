@@ -11,7 +11,6 @@ class RefreshLayout extends StatefulWidget {
   final OnRefreshCallback onRefresh;
   final OnLoadCallback onLoad;
   final List<Widget> slivers;
-
   //0 不显示 1 空视图 2.错误视图
   final int showWidget;
 
@@ -21,7 +20,7 @@ class RefreshLayout extends StatefulWidget {
   createState() => new RefreshLayoutState();
 }
 
-class RefreshLayoutState extends State<RefreshLayout> {
+class RefreshLayoutState extends State<RefreshLayout> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
 
   @override
@@ -57,6 +56,7 @@ class RefreshLayoutState extends State<RefreshLayout> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Color color = Theme.of(context).primaryColor;
     return EasyRefresh.custom(
       controller: _controller,
@@ -75,4 +75,7 @@ class RefreshLayoutState extends State<RefreshLayout> {
       onLoad: widget.onLoad,
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
