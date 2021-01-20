@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wan_flutter_app/utils/DialogUtils.dart';
-import 'package:wan_flutter_app/utils/FileUtils.dart';
 import '../CallBack.dart';
 import 'RepResult.dart';
 

@@ -11,7 +11,6 @@ import 'package:wan_flutter_app/view/Splash.dart';
 import 'package:wan_flutter_app/view/main/Main.dart';
 import 'package:wan_flutter_app/view/public/PublicSet.dart';
 import 'package:wan_flutter_app/widget/AnimationRoute.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 /// @author DeMon
 /// Created on 2020/7/24.

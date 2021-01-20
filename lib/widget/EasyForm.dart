@@ -23,7 +23,6 @@ class EasyForm extends StatefulWidget {
 
 class EasyFormState extends State<EasyForm> {
   GlobalKey _formKey = new GlobalKey<FormState>();
-  bool autovalidate = false;
 
   List<Widget> _buildChildren() {
     List<Widget> list = <Widget>[];
@@ -38,9 +37,6 @@ class EasyFormState extends State<EasyForm> {
         height: 45,
         onPressed: () {
           SystemUtils.hideSoftKeyboard(context);
-          setState(() {
-            autovalidate = true;
-          });
           FormState form = _formKey.currentState;
           if (form.validate()) {
             widget.callback();
@@ -55,7 +51,7 @@ class EasyFormState extends State<EasyForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      autovalidate: autovalidate,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(children: _buildChildren()),
     );
   }

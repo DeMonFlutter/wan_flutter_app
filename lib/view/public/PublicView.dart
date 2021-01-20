@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:wan_flutter_app/model/PublicModel.dart';
 import 'package:wan_flutter_app/style/DColors.dart';
-import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CollectListView.dart';

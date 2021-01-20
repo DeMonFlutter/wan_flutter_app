@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/widget/GradientButton.dart';
 
 /// @author DeMon
@@ -24,7 +23,7 @@ class FirstRefreshLayout extends StatefulWidget {
   createState() => new FirstRefreshLayoutState();
 }
 
-class FirstRefreshLayoutState extends State<FirstRefreshLayout> with AutomaticKeepAliveClientMixin {
+class FirstRefreshLayoutState extends State<FirstRefreshLayout>{
   EasyRefreshController _controller;
 
   @override
@@ -80,7 +79,4 @@ class FirstRefreshLayoutState extends State<FirstRefreshLayout> with AutomaticKe
             onLoad: widget.onLoad,
           );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

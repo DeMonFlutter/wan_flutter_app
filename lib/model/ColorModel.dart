@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/utils/SPUtils.dart';
-import 'package:wan_flutter_app/view/Splash.dart';
 
 /// @author DeMon
 /// Created on 2020/5/6.
