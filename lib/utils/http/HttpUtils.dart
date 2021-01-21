@@ -119,6 +119,9 @@ class HttpUtils {
     }).then((onValue) {
       callback(onValue);
     }).catchError((e) {
+      if (isShowDialog && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
       print('$url--$e');
       Fluttertoast.showToast(msg: '请求失败：$e');
     });
@@ -175,6 +178,9 @@ class HttpUtils {
     }).then((onValue) {
       callback(onValue);
     }).catchError((e) {
+      if (isShowDialog && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
       print('$url--$e');
       Fluttertoast.showToast(msg: '请求失败：$e');
     });

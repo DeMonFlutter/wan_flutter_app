@@ -29,7 +29,6 @@ class PublicViewState extends State<PublicView> {
   int page = 1;
   int showWidget = 0;
   bool firstRefresh = true;
-  bool firstError = false;
   List<dynamic> articleList = List();
 
   @override
@@ -61,17 +60,16 @@ class PublicViewState extends State<PublicView> {
     }
     HttpUtils.instance.getFuture("wxarticle/list/$cid", page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
-      if (list.isEmpty || list.length == 0) {
+      if (page == 0 && list.length == 0) {
         setState(() => showWidget = 1);
       } else {
-        setState(() {
-          showWidget = 0;
-          articleList.addAll(list);
-        });
+        setState(() => articleList.addAll(list));
       }
       _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
-      setState(() => showWidget = 2);
+      if (page == 0) {
+        setState(() => showWidget = 2);
+      }
     }).whenComplete(() => setState(() => firstRefresh = false));
   }
 
@@ -113,9 +111,7 @@ class PublicViewState extends State<PublicView> {
       body: FirstRefreshLayout(
           showWidget: showWidget,
           controller: _controller,
-          onRefresh: () async {
-            articleListData(1);
-          },
+          onRefresh: () => articleListData(1),
           onLoad: () => articleListData(++page),
           firstRefresh: firstRefresh,
           child: ListView.separated(

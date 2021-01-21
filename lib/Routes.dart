@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/view/SettingRoute.dart';
 import 'package:wan_flutter_app/view/SettingTheme.dart';
 import 'package:wan_flutter_app/view/WebView.dart';
+import 'package:wan_flutter_app/view/collect/Collect.dart';
 import 'package:wan_flutter_app/view/info/EditInfo.dart';
 import 'package:wan_flutter_app/view/info/UserInfo.dart';
 import 'package:wan_flutter_app/view/Login.dart';
@@ -28,7 +29,7 @@ class Routes {
   static const EDIT_INFO = "Edit_Info";
   static const WEBVIEW = "WebView";
   static const PUBLIC_SET = "Public_Set";
-
+  static const COLLECT = "Collect";
   static final routes = {
     "/": (context) => SplashPage(),
     HOME: (context) => MainPage(),
@@ -40,6 +41,7 @@ class Routes {
     EDIT_INFO: (context) => EditInfoPage(),
     WEBVIEW: (context) => WebViewPage(),
     PUBLIC_SET: (context) => PublicSetPage(),
+    COLLECT: (context) => CollectPage()
   };
 
   /// 封装过渡动画的路由跳转

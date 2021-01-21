@@ -37,14 +37,13 @@ class PublicSetPageState extends State<PublicSetPage> {
     super.initState();
   }
 
-  initData() {
-    HttpUtils.getInstance().get(context, "wxarticle/chapters", (result) {
-      List<dynamic> datas = result.data;
-      setState(() {
-        datas.forEach((element) {
-          list.add(PublicModel.fromJson(element));
-        });
+  initData() async {
+    HttpUtils.getInstance().getFuture("wxarticle/chapters").then((result) {
+      list.clear();
+      result.data.forEach((element) {
+        list.add(PublicModel.fromJson(element));
       });
+      setState(() {});
     });
   }
 
@@ -52,11 +51,13 @@ class PublicSetPageState extends State<PublicSetPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("选择公众号")),
-        body: ListView.separated(
-          itemBuilder: (context, index) => _buildList(list[index], index),
-          itemCount: list.length,
-          separatorBuilder: (context, index) => Padding(padding: EdgeInsets.only(left: 16), child: Divider(height: 1, color: Colors.grey)),
-        ));
+        body: RefreshIndicator(
+            onRefresh: () => this.initData(),
+            child: ListView.separated(
+              itemBuilder: (context, index) => _buildList(list[index], index),
+              itemCount: list.length,
+              separatorBuilder: (context, index) => Padding(padding: EdgeInsets.only(left: 16), child: Divider(height: 1, color: Colors.grey)),
+            )));
   }
 
   Widget _buildList(PublicModel model, int index) {

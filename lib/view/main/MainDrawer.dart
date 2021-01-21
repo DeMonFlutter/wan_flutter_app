@@ -74,7 +74,9 @@ class MainDrawerViewState extends State<MainDrawerView> {
               color: Colors.blue,
             ),
             title: Text('我的收藏'),
-            onTap: () {},
+            onTap: () {
+              Routes.startPage(context, Routes.COLLECT);
+            },
           ),
           ListTile(
             leading: Icon(
