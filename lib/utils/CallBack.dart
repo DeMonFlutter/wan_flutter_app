@@ -10,3 +10,4 @@ typedef HttpCallback = void Function(RepResult result); //网络请求回调
 typedef Callback = void Function(); //无参回调
 
 typedef TCallback = void Function(dynamic result); //泛型回调
+

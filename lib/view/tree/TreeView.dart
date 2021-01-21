@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:wan_flutter_app/model/ClassModel.dart';
 import 'package:wan_flutter_app/utils/DialogUtils.dart';
 import 'package:wan_flutter_app/utils/StringUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CollectListView.dart';
-import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
 import 'package:wan_flutter_app/widget/OptionView.dart';
+import 'package:wan_flutter_app/widget/RefreshStatusLayout.dart';
 
 import '../../Routes.dart';
 
@@ -21,10 +20,7 @@ class TreeView extends StatefulWidget {
 }
 
 class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin {
-  EasyRefreshController _controller = EasyRefreshController();
-  int page = 0;
-  int showWidget = 0;
-  bool firstRefresh = true;
+  RefreshController _controller = RefreshController();
   bool firstError = false;
   ClassModel treeModel = ClassModel(name: "", children: List());
   List<dynamic> dataList = List();
@@ -37,42 +33,33 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
     HttpUtils.instance.getFuture("tree").then((data) {
       List<dynamic> list = data.data;
       if (list.isEmpty || list.length == 0) {
-        setState(() => showWidget = 1);
+        _controller.callback(true, size: 0);
       } else {
-        setState(() {
-          showWidget = 0;
-          dataList.addAll(list);
-          treeModel = ClassModel.fromJson(dataList[0]);
-        });
+        dataList.clear();
+        setState(() => dataList.addAll(list));
+        treeModel = ClassModel.fromJson(dataList[0]);
         cid = treeModel.children[0].id;
         articleListData(cid, 0);
       }
     }).catchError((onError) {
-      firstError = true;
-      setState(() => showWidget = 2);
-    }).whenComplete(() {
-      setState(() => firstRefresh = false);
+      _controller.callback(false);
     });
   }
 
   articleListData(int id, int page) async {
-    this.page = page;
     if (page == 0) {
       articleList.clear();
     }
     HttpUtils.instance.getFuture("article/list", param: {'cid': id}, page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
-      if (list.isEmpty || list.length == 0) {
-        setState(() => showWidget = 1);
-      } else {
-        setState(() {
-          showWidget = 0;
-          articleList.addAll(list);
-        });
+      if (page == 0) {
+        articleList.clear();
       }
-        _controller.finishLoad(success: true, noMore: data.pagingData.over);
+      setState(() => articleList.addAll(list));
+      _controller.callback(true, size: articleList.length);
+      _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
-      setState(() => showWidget = 2);
+      _controller.callback(false);
     });
   }
 
@@ -150,18 +137,15 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
           ),
         ),
       ),
-      body: FirstRefreshLayout(
-          showWidget: showWidget,
+      body: RefreshStatusLayout(
           controller: _controller,
-          onRefresh: () async {
+          refreshCallback: (i) async {
             if (firstError) {
               mockNetworkData();
             } else {
-              articleListData(cid, 0);
+              articleListData(cid, i);
             }
           },
-          onLoad: () => articleListData(cid, ++page),
-          firstRefresh: firstRefresh,
           child: ListView.separated(
             itemBuilder: (context, index) => _buildList(articleList[index], index),
             itemCount: articleList.length,

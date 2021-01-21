@@ -10,4 +10,5 @@ class DIcons {
   static const IconData left_right = IconData(0xe611, fontFamily: 'DIcons');
   static const IconData ios = IconData(0xe973, fontFamily: 'DIcons');
   static const IconData up_down = IconData(0xe602, fontFamily: 'DIcons');
+  static const IconData question = IconData(0xe645, fontFamily: 'DIcons');
 }

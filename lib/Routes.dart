@@ -11,6 +11,7 @@ import 'package:wan_flutter_app/view/Register.dart';
 import 'package:wan_flutter_app/view/Splash.dart';
 import 'package:wan_flutter_app/view/main/Main.dart';
 import 'package:wan_flutter_app/view/public/PublicSet.dart';
+import 'package:wan_flutter_app/view/question/Question.dart';
 import 'package:wan_flutter_app/widget/AnimationRoute.dart';
 
 /// @author DeMon
@@ -30,6 +31,7 @@ class Routes {
   static const WEBVIEW = "WebView";
   static const PUBLIC_SET = "Public_Set";
   static const COLLECT = "Collect";
+  static const QUESTION = "Question";
   static final routes = {
     "/": (context) => SplashPage(),
     HOME: (context) => MainPage(),
@@ -41,7 +43,8 @@ class Routes {
     EDIT_INFO: (context) => EditInfoPage(),
     WEBVIEW: (context) => WebViewPage(),
     PUBLIC_SET: (context) => PublicSetPage(),
-    COLLECT: (context) => CollectPage()
+    COLLECT: (context) => CollectPage(),
+    QUESTION: (context) => QuestionPage(),
   };
 
   /// 封装过渡动画的路由跳转

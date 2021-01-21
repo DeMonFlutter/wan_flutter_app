@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/PublicModel.dart';
 import 'package:wan_flutter_app/style/DColors.dart';
@@ -9,7 +8,7 @@ import 'package:wan_flutter_app/utils/SPUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CollectListView.dart';
-import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
+import 'package:wan_flutter_app/widget/RefreshStatusLayout.dart';
 
 import '../../Routes.dart';
 
@@ -23,12 +22,9 @@ class PublicView extends StatefulWidget {
 }
 
 class PublicViewState extends State<PublicView> {
-  EasyRefreshController _controller = EasyRefreshController();
+  RefreshController _controller = RefreshController();
   List<PublicModel> dataList = List();
   int cid = 408;
-  int page = 1;
-  int showWidget = 0;
-  bool firstRefresh = true;
   List<dynamic> articleList = List();
 
   @override
@@ -48,29 +44,26 @@ class PublicViewState extends State<PublicView> {
       list.forEach((element) {
         dataList.add(PublicModel(name: element["name"], id: element["id"]));
       });
+      setState(() {
+
+      });
       cid = dataList[0].id;
       articleListData(1);
     });
   }
 
   articleListData(int page) async {
-    this.page = page;
-    if (page == 1) {
-      articleList.clear();
-    }
     HttpUtils.instance.getFuture("wxarticle/list/$cid", page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
-      if (page == 0 && list.length == 0) {
-        setState(() => showWidget = 1);
-      } else {
-        setState(() => articleList.addAll(list));
+      if (page == 1) {
+        articleList.clear();
       }
+      setState(() => articleList.addAll(list));
+      _controller.callback(true, size: articleList.length);
       _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
-      if (page == 0) {
-        setState(() => showWidget = 2);
-      }
-    }).whenComplete(() => setState(() => firstRefresh = false));
+      _controller.callback(false);
+    });
   }
 
   @override
@@ -108,12 +101,10 @@ class PublicViewState extends State<PublicView> {
         ),
       ),
       backgroundColor: DColors.bg,
-      body: FirstRefreshLayout(
-          showWidget: showWidget,
+      body: RefreshStatusLayout(
+          initPage: PAGE_ONE,
           controller: _controller,
-          onRefresh: () => articleListData(1),
-          onLoad: () => articleListData(++page),
-          firstRefresh: firstRefresh,
+          refreshCallback: (i) => articleListData(i),
           child: ListView.separated(
             itemBuilder: (context, index) => _buildList(articleList[index], index),
             itemCount: articleList.length,

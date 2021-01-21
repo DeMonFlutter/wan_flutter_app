@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:wan_flutter_app/data/Const.dart';
 import 'package:wan_flutter_app/model/User.dart';
 import 'package:wan_flutter_app/model/UserModel.dart';
+import 'package:wan_flutter_app/style/DColors.dart';
+import 'package:wan_flutter_app/style/DIcons.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/widget/GradientView.dart';
 
@@ -76,6 +78,16 @@ class MainDrawerViewState extends State<MainDrawerView> {
             title: Text('我的收藏'),
             onTap: () {
               Routes.startPage(context, Routes.COLLECT);
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              DIcons.question,
+              color: DColors.color_1f5b89,
+            ),
+            title: Text('每日一问'),
+            onTap: () {
+              Routes.startPage(context, Routes.QUESTION);
             },
           ),
           ListTile(

@@ -28,24 +28,28 @@ class HomeSwiperState extends State<HomeSwiper> {
       future: _futureBuilderFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          List bannerList = snapshot.data.data;
-          if (snapshot.hasError || bannerList.isEmpty) {
+          if (snapshot.hasError) {
             return Image.asset('res/images/bg.jpg', fit: BoxFit.cover);
           } else {
-            return Swiper(
-              itemBuilder: (context, index) {
-                return new Image.network(bannerList[index]['imagePath'], fit: BoxFit.cover);
-              },
-              itemCount: bannerList.length,
-              autoplay: bannerList.length > 1,
-              autoplayDelay: 10000,
-              duration: 1000,
-              pagination: SwiperPagination(),
-              onTap: (index) {
-                var data = bannerList[index];
-                Routes.startWebView(context, {'url': data['url'], 'title': data['title']});
-              },
-            );
+            List bannerList = snapshot.data.data;
+            if (bannerList.isEmpty) {
+              return Image.asset('res/images/bg.jpg', fit: BoxFit.cover);
+            } else {
+              return Swiper(
+                itemBuilder: (context, index) {
+                  return new Image.network(bannerList[index]['imagePath'], fit: BoxFit.cover);
+                },
+                itemCount: bannerList.length,
+                autoplay: bannerList.length > 1,
+                autoplayDelay: 10000,
+                duration: 1000,
+                pagination: SwiperPagination(),
+                onTap: (index) {
+                  var data = bannerList[index];
+                  Routes.startWebView(context, {'url': data['url'], 'title': data['title']});
+                },
+              );
+            }
           }
         } else {
           return Image.asset('res/images/bg.jpg', fit: BoxFit.cover);

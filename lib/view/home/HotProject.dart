@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
 import 'package:wan_flutter_app/widget/CollectListView.dart';
-import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
+import 'package:wan_flutter_app/widget/RefreshStatusLayout.dart';
 import '../../Routes.dart';
 
 /// @author DeMon
@@ -15,33 +14,22 @@ class HotProjectPage extends StatefulWidget {
 }
 
 class HotProjectPageState extends State<HotProjectPage> {
-  EasyRefreshController _controller = EasyRefreshController();
-  bool firstRefresh = true;
-  int page = 0;
-  int showWidget = 0;
+  RefreshController _controller = RefreshController();
 
   List<dynamic> dataList = List();
 
   mockNetworkData(int page) async {
-    this.page = page;
-    if (page == 0) {
-      dataList.clear();
-    }
     HttpUtils.instance.getFuture("article/listproject", page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
-      if (page == 0 && list.isEmpty) {
-        setState(() => showWidget = 1);
-      } else {
-        setState(() {
-          dataList.addAll(list);
-        });
+      if (page == 0) {
+        dataList.clear();
       }
+      setState(() => dataList.addAll(list));
+      _controller.callback(true, size: dataList.length);
       _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
-      if (page == 0) {
-        setState(() => showWidget = 2);
-      }
-    }).whenComplete(() => setState(() => firstRefresh = false));
+      _controller.callback(false);
+    });
   }
 
   _buildList(dynamic data, int index) {
@@ -69,17 +57,14 @@ class HotProjectPageState extends State<HotProjectPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FirstRefreshLayout(
+    return RefreshStatusLayout(
       controller: _controller,
-      firstRefresh: firstRefresh,
+      refreshCallback: (i) => mockNetworkData(i),
       child: ListView.separated(
         itemBuilder: (context, index) => _buildList(dataList[index], index),
         itemCount: dataList.length,
         separatorBuilder: (context, index) => Padding(padding: EdgeInsets.only(left: 16), child: Divider(height: 1, color: Colors.grey)),
       ),
-      onRefresh: () => mockNetworkData(0),
-      onLoad: () => mockNetworkData(++page),
-      showWidget: showWidget,
     );
   }
 }

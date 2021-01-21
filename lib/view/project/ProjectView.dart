@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:wan_flutter_app/model/ClassModel.dart';
 import 'package:wan_flutter_app/style/DColors.dart';
 import 'package:wan_flutter_app/utils/DialogUtils.dart';
 import 'package:wan_flutter_app/utils/ViewUtils.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
-import 'package:wan_flutter_app/widget/FirstRefreshLayout.dart';
 import 'package:wan_flutter_app/widget/OptionView.dart';
+import 'package:wan_flutter_app/widget/RefreshStatusLayout.dart';
 
 import '../../Routes.dart';
 
@@ -20,10 +19,7 @@ class ProjectView extends StatefulWidget {
 }
 
 class ProjectViewState extends State<ProjectView> {
-  EasyRefreshController _controller = EasyRefreshController();
-  int page = 1;
-  int showWidget = 0;
-  bool firstRefresh = true;
+  RefreshController _controller = RefreshController();
   bool firstError = false;
   ClassModel treeModel = ClassModel(name: "", children: List());
   List<dynamic> dataList = List();
@@ -35,43 +31,31 @@ class ProjectViewState extends State<ProjectView> {
     HttpUtils.instance.getFuture("project/tree").then((data) {
       List<dynamic> list = data.data;
       if (list.isEmpty || list.length == 0) {
-        setState(() => showWidget = 1);
+        _controller.callback(true, size: 0);
       } else {
-        setState(() {
-          showWidget = 0;
-          dataList.addAll(list);
-          treeModel = ClassModel.fromJson(dataList[0]);
-        });
+        dataList.addAll(list);
+        treeModel = ClassModel.fromJson(dataList[0]);
         cid = treeModel.id;
         projectListData(cid, 1);
       }
     }).catchError((onError) {
-      firstError = true;
-      setState(() => showWidget = 2);
       print('$onError');
-    }).whenComplete(() {
-      setState(() => firstRefresh = false);
+      firstError = true;
+      _controller.callback(false);
     });
   }
 
   projectListData(int id, int page) async {
-    this.page = page;
-    if (page == 1) {
-      projectList.clear();
-    }
     HttpUtils.instance.getFuture("project/list", param: {'cid': id}, page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
-      if (list.isEmpty || list.length == 0) {
-        setState(() => showWidget = 1);
-      } else {
-        setState(() {
-          showWidget = 0;
-          projectList.addAll(list);
-        });
+      if (page == 1) {
+        projectList.clear();
       }
+      setState(() => projectList.addAll(list));
+      _controller.callback(true, size: projectList.length);
       _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
-      setState(() => showWidget = 2);
+      _controller.callback(false);
     });
   }
 
@@ -162,18 +146,16 @@ class ProjectViewState extends State<ProjectView> {
         ],
       ),
       backgroundColor: DColors.bg,
-      body: FirstRefreshLayout(
-          showWidget: showWidget,
+      body: RefreshStatusLayout(
+          initPage: PAGE_ONE,
           controller: _controller,
-          onRefresh: () async {
+          refreshCallback: (i) async {
             if (firstError) {
               mockNetworkData();
             } else {
-              projectListData(cid, 1);
+              projectListData(cid, i);
             }
           },
-          onLoad: () => projectListData(cid, ++page),
-          firstRefresh: firstRefresh,
           child: GridView.builder(
             itemCount: projectList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

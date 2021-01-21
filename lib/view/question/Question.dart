@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter_app/style/DColors.dart';
 import 'package:wan_flutter_app/utils/http/HttpUtils.dart';
-import 'package:wan_flutter_app/widget/CollectListView.dart';
 import 'package:wan_flutter_app/widget/RefreshStatusLayout.dart';
 
 import '../../Routes.dart';
@@ -10,19 +9,19 @@ import '../../Routes.dart';
 /// Created on 2021/1/21.
 /// E-mail 757454343@qq.com
 /// Desc:
-class CollectPage extends StatefulWidget {
+class QuestionPage extends StatefulWidget {
   @override
-  createState() => new CollectPageState();
+  createState() => new QuestionPageState();
 }
 
-class CollectPageState extends State<CollectPage> {
+class QuestionPageState extends State<QuestionPage> {
   RefreshController _controller = RefreshController();
   var dataList = List<dynamic>();
 
   initData(int page) async {
-    HttpUtils.getInstance().getFuture("lg/collect/list", page: page).then((data) {
+    HttpUtils.getInstance().getFuture("wenda/list", page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
-      if (page == 0) {
+      if (page == 1) {
         dataList.clear();
       }
       setState(() => dataList.addAll(list));
@@ -35,16 +34,17 @@ class CollectPageState extends State<CollectPage> {
 
   @override
   void initState() {
-    initData(0);
+    initData(1);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("我的收藏")),
+      appBar: AppBar(title: Text("每日一答")),
       backgroundColor: DColors.bg,
       body: RefreshStatusLayout(
+        initPage: PAGE_ONE,
         controller: _controller,
         refreshCallback: (i) => initData(i),
         child: ListView.separated(
@@ -57,16 +57,12 @@ class CollectPageState extends State<CollectPage> {
   }
 
   Widget _buildList(dynamic data, int index) {
-    return CollectListView(
-      data,
-      ListTile(
-          onTap: () {
-            Routes.startWebView(context, {'url': data['link'], 'title': data['title']});
-          },
-          contentPadding: EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
-          title: Text(data['title']),
-          subtitle: Text("作者：${data['author']} 收藏时间：" + data['niceDate'], style: TextStyle(color: Colors.grey))),
-      isCollectPage: true,
-    );
+    return ListTile(
+        onTap: () {
+          Routes.startWebView(context, {'url': data['link'], 'title': data['title']});
+        },
+        contentPadding: EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
+        title: Text(data['title']),
+        subtitle: Text("时间：" + data['niceDate'], style: TextStyle(color: Colors.grey)));
   }
 }
