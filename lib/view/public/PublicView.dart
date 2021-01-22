@@ -21,8 +21,9 @@ class PublicView extends StatefulWidget {
   createState() => new PublicViewState();
 }
 
-class PublicViewState extends State<PublicView> {
+class PublicViewState extends State<PublicView> with TickerProviderStateMixin {
   RefreshController _controller = RefreshController();
+  TabController _tabController;
   List<PublicModel> dataList = List();
   int cid = 408;
   List<dynamic> articleList = List();
@@ -32,6 +33,7 @@ class PublicViewState extends State<PublicView> {
     //初始默认的数据
     dataList.add(PublicModel(name: "鸿洋", id: 408));
     dataList.add(PublicModel(name: "郭霖", id: 409));
+    _tabController = new TabController(length: dataList.length, vsync: this);
     this.initData();
     super.initState();
   }
@@ -45,7 +47,8 @@ class PublicViewState extends State<PublicView> {
         dataList.add(PublicModel(name: element["name"], id: element["id"]));
       });
       setState(() {
-
+        _tabController = new TabController(length: dataList.length, vsync: this);
+        _tabController.animateTo(0);
       });
       cid = dataList[0].id;
       articleListData(1);
@@ -55,10 +58,12 @@ class PublicViewState extends State<PublicView> {
   articleListData(int page) async {
     HttpUtils.instance.getFuture("wxarticle/list/$cid", page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
-      if (page == 1) {
-        articleList.clear();
-      }
-      setState(() => articleList.addAll(list));
+      setState(() {
+        if (page == 1) {
+          articleList.clear();
+        }
+        articleList.addAll(list);
+      });
       _controller.callback(true, size: articleList.length);
       _controller.finishLoad(success: true, noMore: data.pagingData.over);
     }).catchError((onError) {
@@ -85,18 +90,16 @@ class PublicViewState extends State<PublicView> {
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(46),
-          child: DefaultTabController(
-            child: TabBar(
-              onTap: (index) {
-                cid = dataList[index].id;
-                _controller.callRefresh();
-              },
-              indicatorSize: TabBarIndicatorSize.label,
-              indicatorColor: Colors.white,
-              tabs: dataList.map((e) => Tab(text: e.name)).toList(),
-              isScrollable: true,
-            ),
-            length: dataList.length,
+          child: TabBar(
+            controller: _tabController,
+            onTap: (index) {
+              cid = dataList[index].id;
+              _controller.callRefresh();
+            },
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorColor: Colors.white,
+            tabs: dataList.map((e) => Tab(text: e.name)).toList(),
+            isScrollable: true,
           ),
         ),
       ),

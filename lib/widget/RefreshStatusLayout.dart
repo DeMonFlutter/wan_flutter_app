@@ -115,7 +115,7 @@ class RefreshStatusLayoutState extends State<RefreshStatusLayout> with Automatic
         : EasyRefresh(
             controller: _controller,
             header: MaterialHeader(),
-            footer: BallPulseFooter(),
+            footer: BezierBounceFooter(),
             emptyWidget: emptyWidget(),
             child: widget.child,
             firstRefresh: false,
@@ -136,4 +136,11 @@ class RefreshStatusLayoutState extends State<RefreshStatusLayout> with Automatic
 
   @override
   bool get wantKeepAlive => true;
+
+  //当整个页面dispose时，记得把控制器也dispose掉，释放内存
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

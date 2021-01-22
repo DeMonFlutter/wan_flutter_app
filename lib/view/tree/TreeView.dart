@@ -19,8 +19,9 @@ class TreeView extends StatefulWidget {
   createState() => new TreeViewState();
 }
 
-class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin {
+class TreeViewState extends State<TreeView> with TickerProviderStateMixin {
   RefreshController _controller = RefreshController();
+  TabController _tabController;
   bool firstError = false;
   ClassModel treeModel = ClassModel(name: "", children: List());
   List<dynamic> dataList = List();
@@ -36,20 +37,25 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
         _controller.callback(true, size: 0);
       } else {
         dataList.clear();
-        setState(() => dataList.addAll(list));
-        treeModel = ClassModel.fromJson(dataList[0]);
-        cid = treeModel.children[0].id;
-        articleListData(cid, 0);
+        dataList.addAll(list);
+        setState(() => treeModel = ClassModel.fromJson(dataList[0]));
+        initTabs();
       }
     }).catchError((onError) {
       _controller.callback(false);
     });
   }
 
-  articleListData(int id, int page) async {
-    if (page == 0) {
-      articleList.clear();
+  initTabs() {
+    if (treeModel.children.isNotEmpty && treeModel.children.length > 0) {
+      cid = treeModel.children[0].id;
+      _tabController = TabController(length: treeModel.children.length, vsync: this);
+      _tabController.animateTo(0);
+      articleListData(cid, 0);
     }
+  }
+
+  articleListData(int id, int page) async {
     HttpUtils.instance.getFuture("article/list", param: {'cid': id}, page: page).then((data) {
       List<dynamic> list = data.pagingData.datas;
       if (page == 0) {
@@ -84,8 +90,16 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
 
   @override
   void initState() {
+    _tabController = TabController(length: 0, vsync: this);
     mockNetworkData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -109,8 +123,7 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
                   setState(() {
                     treeModel = ClassModel.fromJson(data);
                   });
-                  cid = treeModel.children[0].id;
-                  articleListData(cid, 0);
+                  initTabs();
                 });
               },
             ),
@@ -118,22 +131,20 @@ class TreeViewState extends State<TreeView> with SingleTickerProviderStateMixin 
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(46),
-          child: DefaultTabController(
-            child: TabBar(
-              onTap: (index) {
-                cid = treeModel.children[index].id;
-                _controller.callRefresh();
-              },
-              indicatorSize: TabBarIndicatorSize.label,
-              indicatorColor: Colors.white,
-              tabs: treeModel.children
-                  .map((e) => Tab(
-                        text: e.name,
-                      ))
-                  .toList(),
-              isScrollable: true,
-            ),
-            length: treeModel.children.length,
+          child: TabBar(
+            controller: _tabController,
+            onTap: (index) {
+              cid = treeModel.children[index].id;
+              _controller.callRefresh();
+            },
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorColor: Colors.white,
+            tabs: treeModel.children
+                .map((e) => Tab(
+                      text: e.name,
+                    ))
+                .toList(),
+            isScrollable: true,
           ),
         ),
       ),

@@ -24,7 +24,6 @@ class CollectListViewState extends State<CollectListView> {
   @override
   void initState() {
     isCollectPage = widget.isCollectPage ?? false;
-    isCollect = widget.data['collect'] ?? isCollectPage;
     super.initState();
   }
 
@@ -40,6 +39,7 @@ class CollectListViewState extends State<CollectListView> {
 
   @override
   Widget build(BuildContext context) {
+    isCollect = widget.data['collect'] ?? isCollectPage;
     return Slidable.builder(
       child: isCollect
           ? Banner(
